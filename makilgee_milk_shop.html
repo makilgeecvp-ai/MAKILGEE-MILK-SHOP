@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Makilgee Milk Shop | மகிழ்கி பால் கடை</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1565C0;
+  --primary-light: #E3F2FD;
+  --primary-dark: #0D47A1;
+  --accent: #FF6F00;
+  --accent-light: #FFF8E1;
+  --green: #2E7D32;
+  --green-light: #E8F5E9;
+  --red: #C62828;
+  --red-light: #FFEBEE;
+  --purple: #6A1B9A;
+  --purple-light: #F3E5F5;
+  --amber: #E65100;
+  --amber-light: #FFF3E0;
+  --white: #FFFFFF;
+  --bg: #F0F4F8;
+  --surface: #FFFFFF;
+  --border: #E0E8F0;
+  --text: #1A237E;
+  --text2: #546E7A;
+  --text3: #90A4AE;
+  --shadow: 0 2px 12px rgba(21,101,192,0.10);
+  --shadow-lg: 0 8px 32px rgba(21,101,192,0.15);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Poppins', 'Noto Sans Tamil', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ====== HEADER ====== */
+.app-header {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, #1976D2 100%);
+  color: #fff;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 24px rgba(21,101,192,0.25);
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px 10px;
+}
+.header-logo {
+  width: 46px; height: 46px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  border: 2px solid rgba(255,255,255,0.3);
+  flex-shrink: 0;
+}
+.header-title { flex: 1; }
+.header-title h1 { font-size: 16px; font-weight: 700; letter-spacing: .3px; }
+.header-title p { font-size: 11px; opacity: .8; margin-top: 1px; }
+.header-date { text-align: right; }
+.header-date .date-val { font-size: 12px; font-weight: 600; }
+.header-date .date-lbl { font-size: 10px; opacity: .7; }
+
+/* ====== TABS ====== */
+.tab-bar {
+  display: flex;
+  overflow-x: auto;
+  gap: 2px;
+  padding: 0 10px 10px;
+  scrollbar-width: none;
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  color: rgba(255,255,255,0.85);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.tab-btn:hover { background: rgba(255,255,255,0.25); }
+.tab-btn.active {
+  background: #fff;
+  color: var(--primary-dark);
+  font-weight: 700;
+  border-color: #fff;
+}
+
+/* ====== MAIN ====== */
+.main { padding: 16px; max-width: 720px; margin: 0 auto; }
+.section { display: none; }
+.section.active { display: block; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ====== CARDS ====== */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.card-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  margin-bottom: 12px;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.card-header h2 { font-size: 15px; font-weight: 700; color: var(--text); }
+
+/* ====== STATS ====== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.stat-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.stat-card.s-green::before { background: var(--green); }
+.stat-card.s-red::before { background: var(--red); }
+.stat-card.s-blue::before { background: var(--primary); }
+.stat-card.s-amber::before { background: var(--accent); }
+.stat-card.s-purple::before { background: var(--purple); }
+.stat-label { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+.stat-val { font-size: 22px; font-weight: 700; }
+.stat-val.green { color: var(--green); }
+.stat-val.red { color: var(--red); }
+.stat-val.blue { color: var(--primary); }
+.stat-val.amber { color: var(--accent); }
+.stat-val.purple { color: var(--purple); }
+.stat-sub { font-size: 10px; color: var(--text3); margin-top: 2px; }
+.stat-icon { position: absolute; right: 14px; top: 14px; font-size: 22px; opacity: .15; }
+
+/* ====== FORMS ====== */
+.form-grid { display: grid; gap: 10px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group label { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .4px; }
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  transition: border-color .2s;
+  outline: none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--primary); background: #fff; }
+.form-group textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+/* ====== BUTTONS ====== */
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.btn {
+  padding: 9px 16px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--text);
+  transition: all .2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.btn:active { transform: none; }
+.btn-blue { background: var(--primary); color: #fff; border-color: var(--primary); }
+.btn-blue:hover { background: var(--primary-dark); }
+.btn-green { background: var(--green); color: #fff; border-color: var(--green); }
+.btn-green:hover { background: #1B5E20; }
+.btn-wa { background: #25D366; color: #fff; border-color: #25D366; }
+.btn-wa:hover { background: #1da851; }
+.btn-upi { background: var(--purple); color: #fff; border-color: var(--purple); }
+.btn-upi:hover { background: #4A148C; }
+.btn-red { background: var(--red); color: #fff; border-color: var(--red); }
+.btn-amber { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-tamil { background: #BF360C; color: #fff; border-color: #BF360C; }
+.btn-sm { padding: 5px 11px; font-size: 11px; border-radius: 14px; }
+.btn-icon { padding: 7px 10px; }
+
+/* ====== BADGES ====== */
+.badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .3px;
+}
+.badge-green { background: var(--green-light); color: var(--green); }
+.badge-red { background: var(--red-light); color: var(--red); }
+.badge-blue { background: var(--primary-light); color: var(--primary-dark); }
+.badge-amber { background: var(--amber-light); color: var(--amber); }
+.badge-purple { background: var(--purple-light); color: var(--purple); }
+
+/* ====== ROW ITEMS ====== */
+.item-row {
+  display: flex;
+  align-items: center;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  margin-bottom: 8px;
+  gap: 10px;
+  transition: box-shadow .2s;
+}
+.item-row:hover { box-shadow: var(--shadow); }
+.item-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.item-info { flex: 1; min-width: 0; }
+.item-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.item-meta { font-size: 11px; color: var(--text2); margin-top: 1px; }
+.item-right { text-align: right; flex-shrink: 0; }
+.item-amount { font-size: 14px; font-weight: 700; color: var(--green); }
+.item-due { font-size: 13px; font-weight: 700; color: var(--red); }
+
+/* ====== PRODUCT GRID ====== */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+.product-card {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: all .2s;
+}
+.product-card:hover { border-color: var(--primary); box-shadow: var(--shadow); }
+.product-card.low-stock { border-color: #FFAB40; background: var(--amber-light); }
+.product-emoji { font-size: 24px; margin-bottom: 6px; }
+.product-name { font-size: 12px; font-weight: 600; color: var(--text); }
+.product-price { font-size: 12px; color: var(--green); font-weight: 600; margin-top: 2px; }
+.product-stock { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+/* ====== LANG TOGGLE ====== */
+.lang-toggle {
+  display: flex;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3px;
+  gap: 2px;
+}
+.lang-btn {
+  padding: 4px 14px;
+  border: none;
+  border-radius: 16px;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--text2);
+  transition: all .2s;
+}
+.lang-btn.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ====== MSG TYPE BTNS ====== */
+.msg-types {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin-bottom: 12px;
+}
+.msg-type-btn {
+  padding: 8px 6px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--surface);
+  color: var(--text2);
+  font-family: inherit;
+  text-align: center;
+  transition: all .2s;
+  line-height: 1.4;
+}
+.msg-type-btn:hover { border-color: var(--primary); color: var(--primary); }
+.msg-type-btn.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+/* ====== EXPENSE BARS ====== */
+.bar-item { margin-bottom: 10px; }
+.bar-header { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+.bar-label-text { font-weight: 600; color: var(--text2); display: flex; align-items: center; gap: 5px; }
+.bar-amount { font-weight: 700; color: var(--text); }
+.bar-bg { background: var(--bg); border-radius: 6px; height: 10px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 6px; transition: width .6s ease; }
+.cat-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+/* ====== ROUTE ====== */
+.route-container { position: relative; padding-left: 36px; }
+.route-line {
+  position: absolute;
+  left: 14px;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--primary), var(--accent));
+  border-radius: 2px;
+}
+.route-stop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px 10px 0;
+  margin-bottom: 4px;
+  position: relative;
+}
+.route-number {
+  position: absolute;
+  left: -30px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.route-morning { background: var(--primary); }
+.route-evening { background: var(--accent); }
+.route-both { background: var(--green); }
+.route-info { flex: 1; }
+.route-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.route-detail { font-size: 11px; color: var(--text2); margin-top: 1px; }
+
+/* ====== UPI ====== */
+.upi-box {
+  background: linear-gradient(135deg, var(--purple-light), #E8EAF6);
+  border: 1.5px dashed var(--purple);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  margin: 12px 0;
+}
+.upi-amount { font-size: 28px; font-weight: 700; color: var(--purple); margin: 8px 0; }
+.upi-id { font-size: 13px; font-weight: 600; color: var(--text2); }
+.upi-icon { font-size: 36px; margin: 8px 0; }
+
+/* ====== BILL ====== */
+.bill-preview {
+  background: #FAFAFA;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  font-size: 12px;
+}
+.bill-shop-name { font-size: 15px; font-weight: 700; color: var(--primary-dark); text-align: center; }
+.bill-sub { font-size: 10px; color: var(--text2); text-align: center; margin-bottom: 10px; }
+.bill-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.bill-table th { padding: 5px 4px; border-bottom: 1.5px solid var(--border); color: var(--text2); font-weight: 600; text-align: left; }
+.bill-table td { padding: 4px; color: var(--text); border-bottom: 1px solid var(--bg); }
+.bill-total { display: flex; justify-content: space-between; font-weight: 700; font-size: 13px; margin-top: 8px; padding-top: 8px; border-top: 1.5px solid var(--border); color: var(--green); }
+.bill-footer { font-size: 10px; color: var(--text3); text-align: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+
+/* ====== SUMMARY ROW ====== */
+.sum-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); padding: 4px 0; }
+.sum-row.total { font-weight: 700; font-size: 14px; color: var(--text); border-top: 1.5px solid var(--border); margin-top: 8px; padding-top: 10px; }
+
+/* ====== PROFIT BOX ====== */
+.profit-section { background: linear-gradient(135deg, var(--green-light), #F1F8E9); border: 1px solid #A5D6A7; border-radius: var(--radius-sm); padding: 14px; margin-bottom: 12px; }
+.profit-row { display: flex; justify-content: space-between; font-size: 12px; padding: 3px 0; }
+.profit-row.total { font-weight: 700; font-size: 15px; border-top: 1px solid #A5D6A7; margin-top: 6px; padding-top: 8px; color: var(--green); }
+
+/* ====== TOAST ====== */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 999;
+  transition: transform .3s ease;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ====== ORDER PREVIEW BOX ====== */
+.order-preview-box {
+  background: var(--primary-light);
+  border: 1px solid #90CAF9;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-bottom: 10px;
+  display: none;
+}
+
+/* ====== QUICK ACTIONS ====== */
+.quick-actions { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+.quick-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 8px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .2s;
+  text-decoration: none;
+}
+.quick-btn:hover { border-color: var(--primary); box-shadow: var(--shadow); transform: translateY(-2px); }
+.quick-btn-icon { font-size: 24px; }
+.quick-btn-label { font-size: 11px; font-weight: 600; color: var(--text2); text-align: center; }
+
+/* ====== FILTER BAR ====== */
+.filter-bar { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.filter-btn {
+  padding: 5px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--text2);
+  transition: all .2s;
+}
+.filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+/* ====== RESPONSIVE ====== */
+@media (min-width: 480px) {
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="header-top">
+    <div class="header-logo">🥛</div>
+    <div class="header-title">
+      <h1>Makilgee Milk Shop</h1>
+      <p>மகிழ்கி பால் கடை • Complete Dairy Management</p>
+    </div>
+    <div class="header-date">
+      <div class="date-lbl">Today</div>
+      <div class="date-val" id="today-date">—</div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('dashboard')">🏠 Dashboard</button>
+    <button class="tab-btn" onclick="switchTab('order')">➕ New Order</button>
+    <button class="tab-btn" onclick="switchTab('orders')">📋 All Orders</button>
+    <button class="tab-btn" onclick="switchTab('customers')">👥 Customers</button>
+    <button class="tab-btn" onclick="switchTab('whatsapp')">💬 WhatsApp</button>
+    <button class="tab-btn" onclick="switchTab('upi')">📱 UPI Pay</button>
+    <button class="tab-btn" onclick="switchTab('bill')">🧾 Bill PDF</button>
+    <button class="tab-btn" onclick="switchTab('expense')">💸 Expense</button>
+    <button class="tab-btn" onclick="switchTab('route')">🗺️ Route</button>
+    <button class="tab-btn" onclick="switchTab('stock')">📦 Stock</button>
+  </div>
+</header>
+
+<main class="main">
+
+<!-- ===== DASHBOARD ===== -->
+<div class="section active" id="tab-dashboard">
+  <div class="stats-grid">
+    <div class="stat-card s-green">
+      <div class="stat-label">Today Sales</div>
+      <div class="stat-val green" id="stat-sales">₹0</div>
+      <div class="stat-sub" id="stat-sales-sub">0 orders paid</div>
+      <div class="stat-icon">💰</div>
+    </div>
+    <div class="stat-card s-red">
+      <div class="stat-label">Total Due</div>
+      <div class="stat-val red" id="stat-due">₹0</div>
+      <div class="stat-sub" id="stat-due-sub">from customers</div>
+      <div class="stat-icon">⚠️</div>
+    </div>
+    <div class="stat-card s-amber">
+      <div class="stat-label">Month Expense</div>
+      <div class="stat-val amber" id="stat-exp">₹0</div>
+      <div class="stat-sub">procurement & ops</div>
+      <div class="stat-icon">🧾</div>
+    </div>
+    <div class="stat-card s-blue">
+      <div class="stat-label">Net Profit</div>
+      <div class="stat-val blue" id="stat-profit">₹0</div>
+      <div class="stat-sub" id="stat-profit-sub">this month est.</div>
+      <div class="stat-icon">📈</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Quick Actions</div>
+    <div class="quick-actions">
+      <button class="quick-btn" onclick="switchTab('order')">
+        <span class="quick-btn-icon">➕</span>
+        <span class="quick-btn-label">New Order</span>
+      </button>
+      <button class="quick-btn" onclick="switchTab('whatsapp')">
+        <span class="quick-btn-icon">💬</span>
+        <span class="quick-btn-label">WhatsApp</span>
+      </button>
+      <button class="quick-btn" onclick="switchTab('upi')">
+        <span class="quick-btn-icon">📱</span>
+        <span class="quick-btn-label">UPI Pay</span>
+      </button>
+      <button class="quick-btn" onclick="switchTab('bill')">
+        <span class="quick-btn-icon">🧾</span>
+        <span class="quick-btn-label">Bill PDF</span>
+      </button>
+      <button class="quick-btn" onclick="switchTab('expense')">
+        <span class="quick-btn-icon">💸</span>
+        <span class="quick-btn-label">Add Expense</span>
+      </button>
+      <button class="quick-btn" onclick="switchTab('route')">
+        <span class="quick-btn-icon">🗺️</span>
+        <span class="quick-btn-label">Delivery Route</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Recent Orders</div>
+    <div id="recent-orders"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Customers with Due</div>
+    <div id="dash-due-list"></div>
+  </div>
+</div>
+
+<!-- ===== NEW ORDER ===== -->
+<div class="section" id="tab-order">
+  <div class="card">
+    <div class="card-header"><h2>➕ New Order</h2></div>
+    <div class="form-grid">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Customer Name</label>
+          <input type="text" id="o-name" placeholder="Enter name" list="clist">
+          <datalist id="clist"></datalist>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="o-phone" placeholder="Mobile number">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Product</label>
+          <select id="o-product"></select>
+        </div>
+        <div class="form-group">
+          <label>Quantity (Litres)</label>
+          <input type="number" id="o-qty" min="0.5" step="0.5" value="1">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Delivery Slot</label>
+          <select id="o-delivery">
+            <option value="morning">🌅 Morning</option>
+            <option value="evening">🌆 Evening</option>
+            <option value="both">🌤️ Both (AM & PM)</option>
+            <option value="pickup">🏪 Self Pickup</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Payment Mode</label>
+          <select id="o-payment">
+            <option value="paid">✅ Paid Now (Cash)</option>
+            <option value="upi">📱 UPI Paid</option>
+            <option value="monthly">📅 Monthly Credit</option>
+            <option value="pending">⏳ Pending</option>
+          </select>
+        </div>
+      </div>
+      <div class="order-preview-box" id="order-preview"></div>
+      <div class="btn-row">
+        <button class="btn btn-blue" onclick="calcOrder()">🔢 Calculate</button>
+        <button class="btn btn-green" onclick="placeOrder()">✅ Place Order</button>
+        <button class="btn" onclick="clearOrderForm()">🔄 Clear</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ALL ORDERS ===== -->
+<div class="section" id="tab-orders">
+  <div class="card-header">
+    <h2>📋 All Orders</h2>
+    <span id="orders-count" style="font-size:12px;color:var(--text2);font-weight:600;"></span>
+  </div>
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterOrders('all',this)">All</button>
+    <button class="filter-btn" onclick="filterOrders('paid',this)">✅ Paid</button>
+    <button class="filter-btn" onclick="filterOrders('pending',this)">⏳ Pending</button>
+    <button class="filter-btn" onclick="filterOrders('upi',this)">📱 UPI</button>
+    <button class="filter-btn" onclick="filterOrders('monthly',this)">📅 Monthly</button>
+  </div>
+  <div id="orders-list"></div>
+</div>
+
+<!-- ===== CUSTOMERS ===== -->
+<div class="section" id="tab-customers">
+  <div class="card-header" style="margin-bottom:12px;">
+    <h2>👥 Customers</h2>
+    <button class="btn btn-wa btn-sm" onclick="switchTab('whatsapp')">💬 WhatsApp</button>
+  </div>
+  <div id="customers-list"></div>
+</div>
+
+<!-- ===== WHATSAPP ===== -->
+<div class="section" id="tab-whatsapp">
+  <div class="card">
+    <div class="card-header">
+      <h2>💬 WhatsApp Sender</h2>
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="lang-en" onclick="setLang('en')">English</button>
+        <button class="lang-btn" id="lang-ta" onclick="setLang('ta')">தமிழ்</button>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Select Customer</label>
+          <select id="wa-customer" onchange="fillWaPhone();genWaMsg();">
+            <option value="">Select customer</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Phone (91XXXXXXXXXX)</label>
+          <input type="tel" id="wa-phone" placeholder="91XXXXXXXXXX">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Message Type</label>
+        <div class="msg-types" id="msg-types">
+          <button class="msg-type-btn selected" onclick="selectMsgType(this,'due')">💰 Due Reminder</button>
+          <button class="msg-type-btn" onclick="selectMsgType(this,'bill')">🧾 Bill Ready</button>
+          <button class="msg-type-btn" onclick="selectMsgType(this,'price')">📢 Price Update</button>
+          <button class="msg-type-btn" onclick="selectMsgType(this,'holiday')">🎉 Holiday Notice</button>
+          <button class="msg-type-btn" onclick="selectMsgType(this,'newcust')">🤝 Welcome New</button>
+          <button class="msg-type-btn" onclick="selectMsgType(this,'custom')">✏️ Custom</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label id="msg-lang-label">Message (English)</label>
+        <textarea id="wa-msg" rows="7"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-wa" onclick="sendWhatsApp()">📤 Send WhatsApp</button>
+        <button class="btn btn-tamil" onclick="setLang(currentLang==='en'?'ta':'en')">🔄 Switch Language</button>
+        <button class="btn" onclick="copyWaMsg()">📋 Copy</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Customers with Due — Quick Send</div>
+    <div id="wa-due-list"></div>
+  </div>
+</div>
+
+<!-- ===== UPI PAY ===== -->
+<div class="section" id="tab-upi">
+  <div class="card">
+    <div class="card-header"><h2>📱 UPI Payment Request</h2></div>
+    <div class="form-grid">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Customer</label>
+          <select id="upi-customer" onchange="fillUpiAmount()">
+            <option value="">Select customer</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Amount (₹)</label>
+          <input type="number" id="upi-amount" placeholder="Enter amount" min="1">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your UPI ID</label>
+          <input type="text" id="upi-id" value="makilgee@upi">
+        </div>
+        <div class="form-group">
+          <label>Payment Note</label>
+          <input type="text" id="upi-note" value="Milk Payment - Makilgee">
+        </div>
+      </div>
+      <div class="upi-box" id="upi-preview" style="display:none;">
+        <div class="upi-icon">📱</div>
+        <div style="font-size:12px;color:var(--text2);font-weight:600;">UPI Payment Request</div>
+        <div class="upi-amount" id="upi-display-amt">₹0</div>
+        <div class="upi-id" id="upi-to-name">—</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:8px;word-break:break-all;" id="upi-link-text"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-upi" onclick="generateUPI()">🔗 Generate UPI Link</button>
+        <button class="btn btn-wa" onclick="sendUPIWA('en')">📤 Share WhatsApp</button>
+        <button class="btn btn-tamil" onclick="sendUPIWA('ta')">தமிழில் அனுப்பு</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><h2>Payment History</h2></div>
+    <div id="upi-history"></div>
+  </div>
+</div>
+
+<!-- ===== BILL PDF ===== -->
+<div class="section" id="tab-bill">
+  <div class="card">
+    <div class="card-header"><h2>🧾 Monthly Bill Generator</h2></div>
+    <div class="form-grid">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Customer</label>
+          <select id="bill-customer" onchange="previewBill()">
+            <option value="">Select customer</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Month</label>
+          <select id="bill-month" onchange="previewBill()">
+            <option value="May 2025">May 2025</option>
+            <option value="April 2025">April 2025</option>
+            <option value="March 2025">March 2025</option>
+            <option value="February 2025">February 2025</option>
+          </select>
+        </div>
+      </div>
+      <div id="bill-preview-box" style="display:none;" class="bill-preview">
+        <div class="bill-shop-name">MAKILGEE MILK SHOP</div>
+        <div class="bill-sub">மகிழ்கி பால் கடை • Monthly Milk Bill • மாதாந்திர கணக்கு</div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:10px;">
+          <div><b id="bp-cname">—</b><br><span style="color:var(--text2);" id="bp-phone">—</span></div>
+          <div style="text-align:right;"><span style="color:var(--text2);">Bill No:</span><br><b id="bp-billno">—</b></div>
+        </div>
+        <table class="bill-table">
+          <thead><tr><th>Date</th><th>Product</th><th>Qty</th><th>Rate</th><th>Amt</th></tr></thead>
+          <tbody id="bp-rows"></tbody>
+        </table>
+        <div class="bill-total"><span>Total / மொத்தம்</span><span id="bp-total">₹0</span></div>
+        <div class="bill-footer">
+          நன்றி! Thank you for your business!<br>
+          Pay via UPI: makilgee@upi | 📞 99999-99999
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-green" onclick="previewBill()">👁️ Preview Bill</button>
+        <button class="btn btn-blue" onclick="downloadBill()">⬇️ Save as PDF</button>
+        <button class="btn btn-wa" onclick="billWA('en')">📤 WhatsApp (EN)</button>
+        <button class="btn btn-tamil" onclick="billWA('ta')">📤 தமிழ்</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">All Customers — Bulk Bills</div>
+    <div id="bulk-bill-list"></div>
+  </div>
+</div>
+
+<!-- ===== EXPENSE TRACKER ===== -->
+<div class="section" id="tab-expense">
+  <div class="stats-grid">
+    <div class="stat-card s-green">
+      <div class="stat-label">Month Income</div>
+      <div class="stat-val green" id="exp-income">₹0</div>
+      <div class="stat-icon">💰</div>
+    </div>
+    <div class="stat-card s-red">
+      <div class="stat-label">Total Expense</div>
+      <div class="stat-val red" id="exp-total">₹0</div>
+      <div class="stat-icon">💸</div>
+    </div>
+    <div class="stat-card s-blue">
+      <div class="stat-label">Net Profit</div>
+      <div class="stat-val blue" id="exp-profit">₹0</div>
+      <div class="stat-icon">📈</div>
+    </div>
+    <div class="stat-card s-purple">
+      <div class="stat-label">Profit %</div>
+      <div class="stat-val purple" id="exp-pct">0%</div>
+      <div class="stat-icon">📊</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h2>💸 Add Expense</h2></div>
+    <div class="form-grid">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select id="exp-cat">
+            <option value="milk">🐄 Milk Procurement</option>
+            <option value="transport">🚛 Transport / Fuel</option>
+            <option value="salary">👤 Staff Salary</option>
+            <option value="shop">🏪 Shop Rent & Bills</option>
+            <option value="pack">📦 Packaging Materials</option>
+            <option value="equip">🔧 Equipment & Repair</option>
+            <option value="misc">📋 Miscellaneous</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Amount (₹)</label>
+          <input type="number" id="exp-amount" placeholder="Enter amount" min="1">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" id="exp-desc" placeholder="E.g. Aavin 200L purchase">
+        </div>
+        <div class="form-group">
+          <label>Supplier / Vendor</label>
+          <input type="text" id="exp-vendor" placeholder="Vendor name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" id="exp-date">
+      </div>
+      <button class="btn btn-red" onclick="addExpense()" style="width:fit-content;">➕ Add Expense</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Expense by Category</div>
+    <div id="exp-chart"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Expense History</h2>
+      <span id="exp-count" style="font-size:12px;color:var(--text2);font-weight:600;"></span>
+    </div>
+    <div id="exp-list"></div>
+  </div>
+</div>
+
+<!-- ===== DELIVERY ROUTE ===== -->
+<div class="section" id="tab-route">
+  <div class="card">
+    <div class="card-header">
+      <h2>🗺️ Delivery Route</h2>
+      <div style="display:flex;gap:5px;">
+        <span class="badge badge-blue">🌅 Morning</span>
+        <span class="badge badge-amber">🌆 Evening</span>
+      </div>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterRoute('all',this)">All Stops</button>
+      <button class="filter-btn" onclick="filterRoute('morning',this)">🌅 Morning</button>
+      <button class="filter-btn" onclick="filterRoute('evening',this)">🌆 Evening</button>
+    </div>
+    <div id="route-list"></div>
+    <div class="btn-row" style="margin-top:12px;">
+      <button class="btn btn-wa" onclick="shareRoute('en')">📤 Share Route (EN)</button>
+      <button class="btn btn-tamil" onclick="shareRoute('ta')">📤 தமிழில் அனுப்பு</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><h2>➕ Add Delivery Stop</h2></div>
+    <div class="form-grid">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Customer</label>
+          <select id="route-cust"></select>
+        </div>
+        <div class="form-group">
+          <label>Area / Street</label>
+          <input type="text" id="route-area" placeholder="Area or street name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Delivery Slot</label>
+          <select id="route-slot">
+            <option value="morning">🌅 Morning</option>
+            <option value="evening">🌆 Evening</option>
+            <option value="both">🌤️ Both</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Stop Order #</label>
+          <input type="number" id="route-order" min="1" value="1">
+        </div>
+      </div>
+      <button class="btn btn-blue" onclick="addRouteStop()" style="width:fit-content;">➕ Add Stop</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STOCK ===== -->
+<div class="section" id="tab-stock">
+  <div class="card-header" style="margin-bottom:12px;">
+    <h2>📦 Stock & Products</h2>
+    <span id="low-stock-badge" class="badge badge-amber" style="display:none;">⚠ Low Stock</span>
+  </div>
+  <div class="product-grid" id="stock-grid"></div>
+  <div class="card" style="margin-top:14px;">
+    <div class="card-header"><h2>🔄 Update Stock</h2></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Product</label>
+        <select id="s-product"></select>
+      </div>
+      <div class="form-group">
+        <label>Add Quantity (L)</label>
+        <input type="number" id="s-qty" min="1" step="1" value="10">
+      </div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;">
+      <button class="btn btn-blue" onclick="updateStock()">✅ Update Stock</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<div class="toast" id="toast">✓ Done!</div>
+
+<script>
+// ===== DATA =====
+const products = [
+  {id:1, name:"Full Cream Milk", price:62, unit:"L", stock:50, emoji:"🥛"},
+  {id:2, name:"Toned Milk", price:54, unit:"L", stock:40, emoji:"🍼"},
+  {id:3, name:"Standardised Milk", price:58, unit:"L", stock:30, emoji:"🫙"},
+  {id:4, name:"Buffalo Milk", price:70, unit:"L", stock:20, emoji:"🐃"},
+  {id:5, name:"Curd (500g)", price:40, unit:"pkt", stock:25, emoji:"🧊"},
+  {id:6, name:"Paneer (200g)", price:80, unit:"pkt", stock:10, emoji:"🧀"},
+];
+
+let orders = [
+  {id:1, name:"Rajesh Kumar", phone:"9876543210", product:"Full Cream Milk", qty:2, amount:124, delivery:"morning", payment:"paid", date:todayStr()},
+  {id:2, name:"Priya Lakshmi", phone:"9876543211", product:"Toned Milk", qty:1.5, amount:81, delivery:"evening", payment:"monthly", date:todayStr()},
+  {id:3, name:"Murugan S", phone:"9876543212", product:"Buffalo Milk", qty:2, amount:140, delivery:"morning", payment:"pending", date:todayStr()},
+  {id:4, name:"Kavitha Devi", phone:"9876543213", product:"Full Cream Milk", qty:1, amount:62, delivery:"both", payment:"upi", date:todayStr()},
+];
+
+let customers = [
+  {name:"Rajesh Kumar", phone:"9876543210", product:"Full Cream Milk", qty:2, due:0, area:"Anna Nagar", slot:"morning"},
+  {name:"Priya Lakshmi", phone:"9876543211", product:"Toned Milk", qty:1.5, due:486, area:"T. Nagar", slot:"evening"},
+  {name:"Murugan S", phone:"9876543212", product:"Buffalo Milk", qty:2, due:280, area:"Vadapalani", slot:"morning"},
+  {name:"Kavitha Devi", phone:"9876543213", product:"Full Cream Milk", qty:1, due:0, area:"Porur", slot:"both"},
+  {name:"Senthil Raja", phone:"9876543214", product:"Toned Milk", qty:2, due:162, area:"Tambaram", slot:"morning"},
+];
+
+let expenses = [
+  {cat:"milk", desc:"Aavin milk 200L purchase", amount:11000, date:todayStr(), vendor:"Aavin Dairy"},
+  {cat:"transport", desc:"Delivery vehicle petrol", amount:800, date:todayStr(), vendor:"Petrol Bunk"},
+  {cat:"pack", desc:"Milk packets & covers", amount:350, date:todayStr(), vendor:"Packaging Shop"},
+  {cat:"salary", desc:"Helper salary", amount:4000, date:todayStr(), vendor:"Staff"},
+];
+
+let upiPayments = [
+  {name:"Priya Lakshmi", amount:486, date:todayStr(), txnId:"TXN"+rnd(), status:"received"},
+  {name:"Kavitha Devi", amount:62, date:todayStr(), txnId:"TXN"+rnd(), status:"received"},
+  {name:"Senthil Raja", amount:162, date:todayStr(), txnId:"TXN"+rnd(), status:"pending"},
+];
+
+let routeStops = [
+  {customer:"Rajesh Kumar", area:"Anna Nagar", slot:"morning", order:1},
+  {customer:"Murugan S", area:"Vadapalani", slot:"morning", order:2},
+  {customer:"Senthil Raja", area:"Tambaram", slot:"morning", order:3},
+  {customer:"Priya Lakshmi", area:"T. Nagar", slot:"evening", order:1},
+  {customer:"Kavitha Devi", area:"Porur", slot:"both", order:2},
+];
+
+let orderIdCounter = 5;
+let currentLang = 'en';
+let currentMsgType = 'due';
+
+const catColors = {milk:'#2E7D32', transport:'#1565C0', salary:'#6A1B9A', shop:'#E65100', pack:'#C62828', equip:'#FF6F00', misc:'#546E7A'};
+const catNames = {milk:'Milk Procurement', transport:'Transport/Fuel', salary:'Staff Salary', shop:'Shop Rent & Bills', pack:'Packaging', equip:'Equipment', misc:'Miscellaneous'};
+
+function rnd() { return Math.floor(Math.random()*900000+100000); }
+function todayStr() { return new Date().toLocaleDateString('en-IN'); }
+document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+document.getElementById('exp-date').value = new Date().toISOString().split('T')[0];
+
+// ===== TAB SWITCHING =====
+function switchTab(tab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  const tabs = ['dashboard','order','orders','customers','whatsapp','upi','bill','expense','route','stock'];
+  const idx = tabs.indexOf(tab);
+  if (idx >= 0) document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+  const fns = {
+    dashboard: renderDashboard, order: setupOrderForm, orders: renderOrders,
+    customers: renderCustomers, whatsapp: setupWA, upi: setupUPI,
+    bill: setupBill, expense: renderExpense, route: () => renderRoute('all'), stock: renderStock
+  };
+  if (fns[tab]) fns[tab]();
+}
+
+// ===== PRODUCT SELECTS =====
+function populateProductSelect(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = '<option value="">— Select product —</option>';
+  products.forEach(p => el.innerHTML += `<option value="${p.id}">${p.emoji} ${p.name} — ₹${p.price}/${p.unit}</option>`);
+}
+
+function populateCustomerSelect(id, includeDue = false) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = '<option value="">— Select customer —</option>';
+  customers.forEach(c => {
+    const due = includeDue && c.due > 0 ? ` (₹${c.due} due)` : '';
+    el.innerHTML += `<option value="${c.name}" data-phone="${c.phone}" data-due="${c.due}">${c.name}${due}</option>`;
+  });
+}
+
+// ===== SETUP ORDER FORM =====
+function setupOrderForm() {
+  populateProductSelect('o-product');
+  const dl = document.getElementById('clist');
+  dl.innerHTML = '';
+  customers.forEach(c => dl.innerHTML += `<option value="${c.name}">`);
+  document.getElementById('order-preview').style.display = 'none';
+}
+
+function calcOrder() {
+  const pid = parseInt(document.getElementById('o-product').value);
+  const qty = parseFloat(document.getElementById('o-qty').value);
+  if (!pid || !qty) { showToast('⚠ Select product & quantity'); return; }
+  const p = products.find(x => x.id === pid);
+  const amt = Math.round(p.price * qty);
+  const del = document.getElementById('o-delivery');
+  const pay = document.getElementById('o-payment');
+  const prev = document.getElementById('order-preview');
+  prev.style.display = 'block';
+  prev.innerHTML = `
+    <div class="sum-row"><span>Product</span><span>${p.emoji} ${p.name}</span></div>
+    <div class="sum-row"><span>Quantity</span><span>${qty} ${p.unit}</span></div>
+    <div class="sum-row"><span>Rate</span><span>₹${p.price}/${p.unit}</span></div>
+    <div class="sum-row"><span>Delivery</span><span>${del.options[del.selectedIndex].text}</span></div>
+    <div class="sum-row"><span>Payment</span><span>${pay.options[pay.selectedIndex].text}</span></div>
+    <div class="sum-row total"><span>Total Amount</span><span style="color:var(--green)">₹${amt}</span></div>`;
+}
+
+function placeOrder() {
+  const name = document.getElementById('o-name').value.trim() || 'Walk-in Customer';
+  const phone = document.getElementById('o-phone').value.trim() || '—';
+  const pid = parseInt(document.getElementById('o-product').value);
+  const qty = parseFloat(document.getElementById('o-qty').value);
+  if (!pid || !qty) { showToast('⚠ Select product & quantity'); return; }
+  const p = products.find(x => x.id === pid);
+  const amt = Math.round(p.price * qty);
+  const del = document.getElementById('o-delivery').value;
+  const pay = document.getElementById('o-payment').value;
+  orders.unshift({id: orderIdCounter++, name, phone, product: p.name, qty, amount: amt, delivery: del, payment: pay, date: todayStr()});
+  p.stock = Math.max(0, p.stock - qty);
+  if (pay !== 'paid' && pay !== 'upi') {
+    let c = customers.find(x => x.name === name);
+    if (!c) customers.push({name, phone, product: p.name, qty, due: amt, area: '', slot: del});
+    else c.due += amt;
+  }
+  if (pay === 'upi') {
+    upiPayments.unshift({name, amount: amt, date: todayStr(), txnId: 'TXN' + rnd(), status: 'pending'});
+  }
+  clearOrderForm();
+  showToast('✅ Order placed! ₹' + amt);
+  switchTab('dashboard');
+}
+
+function clearOrderForm() {
+  document.getElementById('o-name').value = '';
+  document.getElementById('o-phone').value = '';
+  document.getElementById('o-qty').value = '1';
+  document.getElementById('order-preview').style.display = 'none';
+}
+
+// ===== DASHBOARD =====
+function renderDashboard() {
+  const todayOrders = orders.filter(o => o.date === todayStr());
+  const sales = todayOrders.reduce((s,o) => s + (o.payment==='paid' ? o.amount : 0), 0);
+  const paidCount = todayOrders.filter(o => o.payment==='paid').length;
+  const due = customers.reduce((s,c) => s + c.due, 0);
+  const dueCust = customers.filter(c => c.due > 0).length;
+  const exp = expenses.reduce((s,e) => s + e.amount, 0);
+  const income = customers.reduce((s,c) => { const p = products.find(x => x.name===c.product)||{price:60}; return s + Math.round(p.price*c.qty*30); }, 0);
+  const profit = income - exp;
+
+  document.getElementById('stat-sales').textContent = '₹' + sales.toLocaleString('en-IN');
+  document.getElementById('stat-sales-sub').textContent = paidCount + ' orders paid today';
+  document.getElementById('stat-due').textContent = '₹' + due.toLocaleString('en-IN');
+  document.getElementById('stat-due-sub').textContent = dueCust + ' customers pending';
+  document.getElementById('stat-exp').textContent = '₹' + exp.toLocaleString('en-IN');
+  document.getElementById('stat-profit').textContent = '₹' + Math.abs(profit).toLocaleString('en-IN');
+  document.getElementById('stat-profit').className = 'stat-val ' + (profit >= 0 ? 'green' : 'red');
+  document.getElementById('stat-profit-sub').textContent = profit >= 0 ? 'Profit this month' : 'Loss this month';
+
+  document.getElementById('recent-orders').innerHTML = orders.slice(0, 5).map(o => `
+    <div class="item-row">
+      <div class="item-avatar">${o.name.split(' ').map(n=>n[0]).join('').slice(0,2)}</div>
+      <div class="item-info">
+        <div class="item-name">${o.name}</div>
+        <div class="item-meta">${o.product} × ${o.qty}L · ${o.delivery} · ${o.date}</div>
+      </div>
+      <div class="item-right">
+        <span class="badge ${o.payment==='paid'?'badge-green':o.payment==='upi'?'badge-blue':o.payment==='monthly'?'badge-amber':'badge-red'}">${o.payment}</span>
+        <div class="item-amount" style="margin-top:4px;">₹${o.amount}</div>
+      </div>
+    </div>`).join('');
+
+  const dueCusts = customers.filter(c => c.due > 0);
+  document.getElementById('dash-due-list').innerHTML = dueCusts.length === 0
+    ? '<p style="font-size:12px;color:var(--text3);text-align:center;padding:10px;">🎉 All dues cleared!</p>'
+    : dueCusts.map(c => `
+      <div class="item-row">
+        <div class="item-avatar">${c.name.split(' ').map(n=>n[0]).join('').slice(0,2)}</div>
+        <div class="item-info">
+          <div class="item-name">${c.name}</div>
+          <div class="item-meta">${c.phone} · ${c.product}</div>
+        </div>
+        <div class="item-right" style="display:flex;align-items:center;gap:6px;">
+          <span class="item-due">₹${c.due}</span>
+          <button class="btn btn-wa btn-sm" onclick="quickWA('${c.name}','${c.phone}',${c.due},'en')">WA</button>
+          <button class="btn btn-tamil btn-sm" onclick="quickWA('${c.name}','${c.phone}',${c.due},'ta')">த</button>
+        </div>
+      </div>`).join('');
+}
+
+// ===== ORDERS =====
+function renderOrders(filter = 'all') {
+  const filtered = filter === 'all' ? orders : orders.filter(o => o.payment === filter);
+  document.getElementById('orders-count').textContent = filtered.length + ' orders';
+  document.getElementById('orders-list').innerHTML = filtered.length === 0
+    ? '<p style="font-size:12px;color:var(--text3);text-align:center;padding:16px;">No orders found</p>'
+    : filtered.map(o => `
+      <div class="item-row">
+        <div class="item-avatar">${o.name.split(' ').map(n=>n[0]).join('').slice(0,2)}</div>
+        <div class="item-info">
+          <div class="item-name">${o.name} <span style="font-size:10px;color:var(--text3);">${o.phone}</span></div>
+          <div class="item-meta">${o.product} × ${o.qty}L · ${o.delivery} · ${o.date}</div>
+        </div>
+        <div class="item-right">
+          <span class="badge ${o.payment==='paid'?'badge-green':o.payment==='upi'?'badge-blue':o.payment==='monthly'?'badge-amber':'badge-red'}">${o.payment}</span>
+          <div class="item-amount" style="margin-top:4px;">₹${o.amount}</div>
+        </div>
+      </div>`).join('');
+}
+
+function filterOrders(filter, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderOrders(filter);
+}
+
+// ===== CUSTOMERS =====
+function renderCustomers() {
+  document.getElementById('customers-list').innerHTML = customers.map(c => `
+    <div class="item-row">
+      <div class="item-avatar">${c.name.split(' ').map(n=>n[0]).join('').slice(0,2)}</div>
+      <div class="item-info">
+        <div class="item-name">${c.name}</div>
+        <div class="item-meta">${c.phone} · ${c.product} ${c.qty}L/day · ${c.area||'—'}</div>
+      </div>
+      <div class="item-right" style="display:flex;align-items:center;gap:6px;">
+        <span class="${c.due>0?'item-due':'item-amount'}">${c.due>0?'₹'+c.due+' due':'✅ Clear'}</span>
+        ${c.due>0?`<button class="btn btn-wa btn-sm" onclick="quickWA('${c.name}','${c.phone}',${c.due},'en')">EN</button>
+        <button class="btn btn-tamil btn-sm" onclick="quickWA('${c.name}','${c.phone}',${c.due},'ta')">த</button>`:''}
+      </div>
+    </div>`).join('');
+}
+
+// ===== WHATSAPP MESSAGES =====
+const waMessages = {
+  en: {
+    due: (n,d,m) => `Dear ${n},\n\nNamaste! 🙏\n\nYour milk account due for ${m} is *₹${d}*.\n\nPlease pay at your earliest convenience.\n\n💳 UPI ID: makilgee@upi\n\nThank you!\n🥛 Makilgee Milk Shop\n📞 99999-99999`,
+    bill: (n,d,m) => `Dear ${n},\n\nYour monthly milk bill for *${m}* is ready.\n💰 Total Amount: *₹${d||'—'}*\n\nContact us for the detailed bill.\n\nThank you for your support! 🥛\nMakilgee Milk Shop`,
+    price: (n) => `Dear ${n},\n\nMilk price update from tomorrow:\n\n🥛 Full Cream: ₹62/L\n🍼 Toned: ₹54/L\n🐃 Buffalo: ₹70/L\n\nThank you for your understanding.\n🥛 Makilgee Milk Shop`,
+    holiday: (n) => `Dear ${n},\n\nOur shop will be *closed on [Date]* due to [Festival].\n\nPlease arrange accordingly.\n\nSorry for the inconvenience. 🙏\n🥛 Makilgee Milk Shop`,
+    newcust: (n) => `Dear ${n},\n\nWelcome to *Makilgee Milk Shop*! 🥛🎉\n\nWe are delighted to serve you fresh milk daily.\n\nFor any queries, please contact us anytime.\n\nThank you!\n🥛 Makilgee Milk Shop\n📞 99999-99999`,
+    custom: (n) => `Dear ${n},\n\n[Write your custom message here]\n\nThank you!\n🥛 Makilgee Milk Shop`,
+  },
+  ta: {
+    due: (n,d,m) => `அன்புள்ள ${n},\n\nவணக்கம்! 🙏\n\n${m} மாதம் உங்கள் பால் கணக்கு நிலுவை *₹${d}* ஆகும்.\n\nதயவுசெய்து விரைவில் செலுத்துங்கள்.\n\n💳 UPI: makilgee@upi\n\nநன்றி!\n🥛 மகிழ்கி பால் கடை\n📞 99999-99999`,
+    bill: (n,d,m) => `அன்புள்ள ${n},\n\n*${m}* மாத பால் கணக்கு தயார்.\n💰 மொத்தத் தொகை: *₹${d||'—'}*\n\nவிரிவான கணக்கிற்கு தொடர்பு கொள்ளுங்கள்.\n\nநன்றி! 🥛\nமகிழ்கி பால் கடை`,
+    price: (n) => `அன்புள்ள ${n},\n\nநாளை முதல் பால் விலை மாற்றம்:\n\n🥛 முழு கொழுப்பு: ₹62/L\n🍼 கொழுப்பு நீக்கம்: ₹54/L\n🐃 எருமை பால்: ₹70/L\n\nபுரிந்துகொண்டதற்கு நன்றி.\n🥛 மகிழ்கி பால் கடை`,
+    holiday: (n) => `அன்புள்ள ${n},\n\n[திருவிழா] காரணமாக *[தேதி]ல்* கடை மூடியிருக்கும்.\n\nதயவுசெய்து ஏற்பாடு செய்துகொள்ளுங்கள்.\n\nமன்னிப்பு கேட்கிறோம். 🙏\n🥛 மகிழ்கி பால் கடை`,
+    newcust: (n) => `அன்புள்ள ${n},\n\n*மகிழ்கி பால் கடைக்கு* வரவேற்கிறோம்! 🥛🎉\n\nதினமும் புதிய பாலை வழங்குவதில் மகிழ்ச்சி.\n\nஏதேனும் கேள்விகள் இருந்தால் எப்போதும் தொடர்பு கொள்ளுங்கள்.\n\nநன்றி!\n🥛 மகிழ்கி பால் கடை\n📞 99999-99999`,
+    custom: (n) => `அன்புள்ள ${n},\n\n[உங்கள் செய்தியை இங்கே எழுதுங்கள்]\n\nநன்றி!\n🥛 மகிழ்கி பால் கடை`,
+  }
+};
+
+function setupWA() {
+  populateCustomerSelect('wa-customer', true);
+  genWaMsg();
+  const dueCusts = customers.filter(c => c.due > 0);
+  document.getElementById('wa-due-list').innerHTML = dueCusts.length === 0
+    ? '<p style="font-size:12px;color:var(--text3);text-align:center;padding:10px;">🎉 All dues cleared!</p>'
+    : dueCusts.map(c => `
+      <div class="item-row">
+        <div class="item-avatar">${c.name.split(' ').map(n=>n[0]).join('').slice(0,2)}</div>
+        <div class="item-info">
+          <div class="item-name">${c.name}</div>
+          <div class="item-meta">${c.phone} · Due: ₹${c.due}</div>
+        </div>
+        <div style="display:flex;gap:5px;">
+          <button class="btn btn-wa btn-sm" onclick="quickWA('${c.name}','${c.phone}',${c.due},'en')">EN</button>
+          <button class="btn btn-tamil btn-sm" onclick="quickWA('${c.name}','${c.phone}',${c.due},'ta')">த</button>
+        </div>
+      </div>`).join('');
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('lang-en').className = 'lang-btn' + (lang==='en'?' active':'');
+  document.getElementById('lang-ta').className = 'lang-btn' + (lang==='ta'?' active':'');
+  document.getElementById('msg-lang-label').textContent = lang==='ta' ? 'செய்தி (தமிழ்)' : 'Message (English)';
+  genWaMsg();
+}
+
+function selectMsgType(btn, type) {
+  document.querySelectorAll('.msg-type-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  currentMsgType = type;
+  genWaMsg();
+}
+
+function genWaMsg() {
+  const sel = document.getElementById('wa-customer');
+  const opt = sel && sel.selectedIndex > 0 ? sel.options[sel.selectedIndex] : null;
+  const name = opt ? opt.value : 'Customer';
+  const due = opt ? (opt.dataset.due || 0) : 0;
+  const month = 'May 2025';
+  const fn = waMessages[currentLang]?.[currentMsgType];
+  document.getElementById('wa-msg').value = fn ? fn(name, due, month) : '';
+}
+
+function fillWaPhone() {
+  const opt = document.getElementById('wa-customer').options[document.getElementById('wa-customer').selectedIndex];
+  if (opt && opt.dataset.phone) document.getElementById('wa-phone').value = opt.dataset.phone;
+}
+
+function sendWhatsApp() {
+  const phone = document.getElementById('wa-phone').value.replace(/\D/g,'');
+  const msg = document.getElementById('wa-msg').value;
+  if (!phone) { showToast('⚠ Enter phone number'); return; }
+  const num = phone.startsWith('91') ? phone : '91' + phone;
+  window.open('https://wa.me/' + num + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function copyWaMsg() {
+  const msg = document.getElementById('wa-msg').value;
+  navigator.clipboard.writeText(msg).then(() => showToast('📋 Message copied!')).catch(() => showToast('Select & copy manually'));
+}
+
+function quickWA(name, phone, due, lang) {
+  switchTab('whatsapp');
+  setTimeout(() => {
+    setLang(lang);
+    document.getElementById('wa-phone').value = phone;
+    const sel = document.getElementById('wa-customer');
+    for (let i = 0; i < sel.options.length; i++) { if (sel.options[i].value === name) { sel.selectedIndex = i; break; } }
+    currentMsgType = 'due';
+    document.querySelectorAll('.msg-type-btn').forEach((b,i) => { b.classList.remove('selected'); if(i===0) b.classList.add('selected'); });
+    genWaMsg();
+  }, 150);
+}
+
+// ===== UPI =====
+function setupUPI() {
+  populateCustomerSelect('upi-customer', true);
+  renderUpiHistory();
+}
+
+function fillUpiAmount() {
+  const opt = document.getElementById('upi-customer').options[document.getElementById('upi-customer').selectedIndex];
+  if (opt && parseInt(opt.dataset.due) > 0) document.getElementById('upi-amount').value = opt.dataset.due;
+}
+
+function generateUPI() {
+  const sel = document.getElementById('upi-customer');
+  const name = sel.options[sel.selectedIndex].value;
+  const amt = parseInt(document.getElementById('upi-amount').value);
+  const upiId = document.getElementById('upi-id').value || 'makilgee@upi';
+  const note = document.getElementById('upi-note').value || 'Milk Payment';
+  if (!name || !amt) { showToast('⚠ Select customer & amount'); return; }
+  const link = `upi://pay?pa=${upiId}&pn=Makilgee+Milk+Shop&am=${amt}&cu=INR&tn=${encodeURIComponent(note)}`;
+  document.getElementById('upi-preview').style.display = 'block';
+  document.getElementById('upi-display-amt').textContent = '₹' + amt.toLocaleString('en-IN');
+  document.getElementById('upi-to-name').textContent = 'For: ' + name + ' · ' + upiId;
+  document.getElementById('upi-link-text').textContent = link;
+  showToast('✅ UPI link generated!');
+}
+
+function sendUPIWA(lang) {
+  const sel = document.getElementById('upi-customer');
+  const opt = sel.options[sel.selectedIndex];
+  const name = opt ? opt.value : 'Customer';
+  const phone = opt ? opt.dataset.phone : '';
+  const amt = parseInt(document.getElementById('upi-amount').value) || 0;
+  const upiId = document.getElementById('upi-id').value || 'makilgee@upi';
+  const msg = lang === 'ta'
+    ? `அன்புள்ள ${name},\n\nUPI மூலம் ₹${amt} பால் கணக்கை செலுத்துங்கள்.\n\n📱 UPI ID: ${upiId}\n💰 தொகை: ₹${amt}\n\nநன்றி!\n🥛 மகிழ்கி பால் கடை`
+    : `Dear ${name},\n\nPlease pay ₹${amt} for your milk bill via UPI.\n\n📱 UPI ID: ${upiId}\n💰 Amount: ₹${amt}\n\nThank you!\n🥛 Makilgee Milk Shop`;
+  window.open('https://wa.me/91' + (phone||'') + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function renderUpiHistory() {
+  document.getElementById('upi-history').innerHTML = upiPayments.map(u => `
+    <div class="item-row">
+      <div class="item-avatar" style="background:var(--purple-light);color:var(--purple);">📱</div>
+      <div class="item-info">
+        <div class="item-name">${u.name}</div>
+        <div class="item-meta">${u.txnId} · ${u.date}</div>
+      </div>
+      <div class="item-right">
+        <div style="font-size:14px;font-weight:700;color:${u.status==='received'?'var(--green)':'var(--amber)'}">₹${u.amount}</div>
+        <span class="badge ${u.status==='received'?'badge-green':'badge-amber'}" style="margin-top:4px;">${u.status}</span>
+      </div>
+    </div>`).join('');
+}
+
+// ===== BILL =====
+function setupBill() {
+  populateCustomerSelect('bill-customer');
+  // Bulk list
+  document.getElementById('bulk-bill-list').innerHTML = customers.map(c => {
+    const p = products.find(x => x.name === c.product) || {price:60};
+    const est = Math.round(p.price * c.qty * 30);
+    return `<div class="item-row">
+      <div class="item-avatar">${c.name.split(' ').map(n=>n[0]).join('').slice(0,2)}</div>
+      <div class="item-info">
+        <div class="item-name">${c.name}</div>
+        <div class="item-meta">${c.product} · Est. ₹${est}/month</div>
+      </div>
+      <div style="display:flex;gap:5px;">
+        <button class="btn btn-sm" onclick="selectBill('${c.name}')">Preview</button>
+        <button class="btn btn-wa btn-sm" onclick="quickWA('${c.name}','${c.phone}',${c.due},'en')">WA</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function selectBill(name) {
+  const sel = document.getElementById('bill-customer');
+  for (let i = 0; i < sel.options.length; i++) { if (sel.options[i].value === name) { sel.selectedIndex = i; break; } }
+  previewBill();
+}
+
+function previewBill() {
+  const name = document.getElementById('bill-customer').options[document.getElementById('bill-customer').selectedIndex].value;
+  if (!name) return;
+  const c = customers.find(x => x.name === name);
+  const p = products.find(x => x.name === c.product) || products[0];
+  const month = document.getElementById('bill-month').value;
+  const dailyAmt = Math.round(p.price * c.qty);
+  const totalAmt = dailyAmt * 30;
+  document.getElementById('bp-cname').textContent = c.name;
+  document.getElementById('bp-phone').textContent = c.phone;
+  document.getElementById('bp-billno').textContent = 'INV-' + Math.floor(1000 + Math.random()*9000);
+  const days = [1,5,10,15,20,25,30];
+  document.getElementById('bp-rows').innerHTML = days.map(d =>
+    `<tr><td>${d} ${month.split(' ')[0]}</td><td>${c.product}</td><td>${c.qty}L</td><td>₹${p.price}</td><td>₹${dailyAmt}</td></tr>`
+  ).join('') + `<tr style="font-weight:700;"><td colspan="4" style="text-align:right;">Total (30 days)</td><td>₹${totalAmt}</td></tr>`;
+  document.getElementById('bp-total').textContent = '₹' + totalAmt.toLocaleString('en-IN');
+  document.getElementById('bill-preview-box').style.display = 'block';
+}
+
+function downloadBill() {
+  const name = document.getElementById('bill-customer').options[document.getElementById('bill-customer').selectedIndex].value;
+  if (!name) { showToast('⚠ Select customer first'); return; }
+  showToast('📄 Use Browser Print (Ctrl+P) → Save as PDF');
+  window.print();
+}
+
+function billWA(lang) {
+  const name = document.getElementById('bill-customer').options[document.getElementById('bill-customer').selectedIndex].value;
+  if (!name) { showToast('⚠ Select customer first'); return; }
+  const c = customers.find(x => x.name === name);
+  const p = products.find(x => x.name === c.product) || products[0];
+  const month = document.getElementById('bill-month').value;
+  const total = Math.round(p.price * c.qty * 30);
+  const msg = lang === 'ta'
+    ? `அன்புள்ள ${name},\n\n${month} மாத பால் கணக்கு:\n\nபொருள்: ${c.product}\nநாள் அளவு: ${c.qty}L\nவிலை: ₹${p.price}/L\nநாட்கள்: 30\n*மொத்தம்: ₹${total}*\n\nUPI: makilgee@upi\n\nநன்றி!\n🥛 மகிழ்கி பால் கடை`
+    : `Dear ${name},\n\nYour milk bill for *${month}*:\n\nProduct: ${c.product}\nQty: ${c.qty}L/day · Rate: ₹${p.price}/L\nDays: 30\n*Total: ₹${total}*\n\nPay via UPI: makilgee@upi\n\nThank you!\n🥛 Makilgee Milk Shop`;
+  window.open('https://wa.me/91' + (c.phone||'') + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+// ===== EXPENSE =====
+function addExpense() {
+  const cat = document.getElementById('exp-cat').value;
+  const amt = parseInt(document.getElementById('exp-amount').value);
+  const desc = document.getElementById('exp-desc').value.trim();
+  const vendor = document.getElementById('exp-vendor').value.trim();
+  const date = document.getElementById('exp-date').value;
+  if (!amt || !desc) { showToast('⚠ Fill amount and description'); return; }
+  expenses.unshift({cat, desc, amount: amt, vendor, date: date ? new Date(date).toLocaleDateString('en-IN') : todayStr()});
+  document.getElementById('exp-amount').value = '';
+  document.getElementById('exp-desc').value = '';
+  document.getElementById('exp-vendor').value = '';
+  showToast('✅ Expense added: ₹' + amt);
+  renderExpense();
+}
+
+function renderExpense() {
+  const totalExp = expenses.reduce((s,e) => s + e.amount, 0);
+  const income = customers.reduce((s,c) => { const p = products.find(x => x.name===c.product)||{price:60}; return s + Math.round(p.price*c.qty*30); }, 0);
+  const profit = income - totalExp;
+  const pct = income > 0 ? Math.round((profit/income)*100) : 0;
+
+  document.getElementById('exp-income').textContent = '₹' + income.toLocaleString('en-IN');
+  document.getElementById('exp-total').textContent = '₹' + totalExp.toLocaleString('en-IN');
+  document.getElementById('exp-profit').textContent = '₹' + Math.abs(profit).toLocaleString('en-IN');
+  document.getElementById('exp-profit').className = 'stat-val ' + (profit >= 0 ? 'green' : 'red');
+  document.getElementById('exp-pct').textContent = pct + '%';
+  document.getElementById('exp-pct').className = 'stat-val ' + (pct >= 20 ? 'green' : pct >= 10 ? 'amber' : 'red');
+  document.getElementById('exp-count').textContent = expenses.length + ' entries';
+
+  // Category bars
+  const catTotals = {};
+  expenses.forEach(e => catTotals[e.cat] = (catTotals[e.cat]||0) + e.amount);
+  const maxAmt = Math.max(...Object.values(catTotals), 1);
+  document.getElementById('exp-chart').innerHTML = Object.entries(catTotals).sort((a,b) => b[1]-a[1]).map(([cat,amt]) => `
+    <div class="bar-item">
+      <div class="bar-header">
+        <span class="bar-label-text"><span class="cat-dot" style="background:${catColors[cat]||'#888'};"></span>${catNames[cat]||cat}</span>
+        <span class="bar-amount">₹${amt.toLocaleString('en-IN')}</span>
+      </div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${Math.round((amt/maxAmt)*100)}%;background:${catColors[cat]||'#888'};"></div></div>
+    </div>`).join('');
+
+  // List
+  document.getElementById('exp-list').innerHTML = expenses.map(e => `
+    <div class="item-row">
+      <div class="item-avatar" style="background:${catColors[e.cat]||'#888'}20;color:${catColors[e.cat]||'#888'};font-size:10px;font-weight:700;">
+        ${catNames[e.cat]?.charAt(0)||'E'}
+      </div>
+      <div class="item-info">
+        <div class="item-name">${e.desc}</div>
+        <div class="item-meta">${catNames[e.cat]||e.cat}${e.vendor?' · '+e.vendor:''} · ${e.date}</div>
+      </div>
+      <div class="item-right">
+        <div style="font-size:14px;font-weight:700;color:var(--red);">-₹${e.amount.toLocaleString('en-IN')}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ===== ROUTE =====
+function renderRoute(filter) {
+  let stops = filter === 'all' ? routeStops : routeStops.filter(s => s.slot === filter || s.slot === 'both');
+  stops = [...stops].sort((a,b) => a.order - b.order);
+  const el = document.getElementById('route-list');
+  if (!stops.length) { el.innerHTML = '<p style="font-size:12px;color:var(--text3);text-align:center;padding:16px;">No stops for this filter</p>'; return; }
+  el.innerHTML = `<div class="route-container"><div class="route-line"></div>` + stops.map((s,i) => {
+    const c = customers.find(x => x.name === s.customer) || {};
+    const cls = s.slot === 'morning' ? 'route-morning' : s.slot === 'evening' ? 'route-evening' : 'route-both';
+    return `<div class="route-stop">
+      <div class="route-number ${cls}">${i+1}</div>
+      <div class="route-info">
+        <div class="route-name">${s.customer}</div>
+        <div class="route-detail">${s.area} · ${c.product||''} ${c.qty||''}L
+          <span class="badge ${s.slot==='morning'?'badge-blue':s.slot==='evening'?'badge-amber':'badge-green'}" style="margin-left:4px;">${s.slot}</span>
+        </div>
+      </div>
+      <button class="btn btn-wa btn-sm btn-icon" onclick="quickWA('${s.customer}','${c.phone||''}',0,'en')">💬</button>
+    </div>`;
+  }).join('') + '</div>';
+
+  // populate add stop dropdown
+  populateCustomerSelect('route-cust');
+}
+
+function filterRoute(filter, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRoute(filter);
+}
+
+function addRouteStop() {
+  const name = document.getElementById('route-cust').options[document.getElementById('route-cust').selectedIndex].value;
+  const area = document.getElementById('route-area').value.trim();
+  const slot = document.getElementById('route-slot').value;
+  const order = parseInt(document.getElementById('route-order').value) || routeStops.length + 1;
+  if (!name || !area) { showToast('⚠ Select customer & area'); return; }
+  routeStops.push({customer: name, area, slot, order});
+  document.getElementById('route-area').value = '';
+  showToast('✅ Stop added for ' + name);
+  renderRoute('all');
+}
+
+function shareRoute(lang) {
+  const stops = [...routeStops].sort((a,b) => a.order - b.order);
+  let msg = lang === 'ta' ? '🚚 இன்றைய விநியோக வழி\n\n' : '🚚 Today\'s Delivery Route\n\n';
+  stops.forEach((s,i) => {
+    const slotText = lang === 'ta' ? (s.slot==='morning'?'காலை':s.slot==='evening'?'மாலை':'இரண்டும்') : s.slot;
+    msg += `${i+1}. ${s.customer} — ${s.area} (${slotText})\n`;
+  });
+  msg += lang === 'ta' ? '\n🥛 மகிழ்கி பால் கடை' : '\n🥛 Makilgee Milk Shop';
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+// ===== STOCK =====
+function renderStock() {
+  const lowCount = products.filter(p => p.stock < 15).length;
+  document.getElementById('low-stock-badge').style.display = lowCount > 0 ? 'inline-block' : 'none';
+  document.getElementById('stock-grid').innerHTML = products.map(p => `
+    <div class="product-card ${p.stock < 15 ? 'low-stock' : ''}">
+      <div class="product-emoji">${p.emoji}</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-price">₹${p.price}/${p.unit}</div>
+      <div class="product-stock">Stock: ${p.stock}L ${p.stock < 15 ? '⚠️ Low' : '✅ OK'}</div>
+    </div>`).join('');
+  populateProductSelect('s-product');
+}
+
+function updateStock() {
+  const pid = parseInt(document.getElementById('s-product').value);
+  const qty = parseInt(document.getElementById('s-qty').value);
+  if (!pid || !qty) { showToast('⚠ Select product & quantity'); return; }
+  const p = products.find(x => x.id === pid);
+  p.stock += qty;
+  showToast('✅ Stock updated: ' + p.name + ' +' + qty + 'L');
+  renderStock();
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ===== INIT =====
+setupOrderForm();
+renderDashboard();
+</script>
+</body>
+</html>
