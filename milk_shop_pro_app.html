@@ -1,0 +1,776 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.app{max-width:680px;padding:.5rem 0;font-family:var(--font-sans);}
+.header{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:1rem;border:.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:12px;}
+.logo{width:44px;height:44px;border-radius:50%;background:#e3f2fd;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.header h1{font-size:17px;font-weight:500;color:var(--color-text-primary);}
+.header p{font-size:12px;color:var(--color-text-secondary);}
+.tabs{display:flex;gap:4px;margin-bottom:1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:4px;flex-wrap:wrap;}
+.tab{flex:1;min-width:70px;padding:6px 4px;border:none;background:transparent;border-radius:6px;font-size:12px;cursor:pointer;color:var(--color-text-secondary);font-family:var(--font-sans);transition:all .15s;white-space:nowrap;}
+.tab.active{background:var(--color-background-primary);color:var(--color-text-primary);font-weight:500;border:.5px solid var(--color-border-tertiary);}
+.section{display:none;}.section.active{display:block;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem;}
+.stat-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.65rem .75rem;}
+.stat-label{font-size:10px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;}
+.stat-val{font-size:18px;font-weight:500;color:var(--color-text-primary);}
+.green{color:#0f9d58;}.amber{color:#e37400;}.red{color:#d93025;}.blue{color:#1a73e8;}
+.card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.875rem 1.125rem;margin-bottom:.875rem;}
+.card-title{font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.75rem;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.form-group{display:flex;flex-direction:column;gap:4px;}
+.form-group label{font-size:11px;color:var(--color-text-secondary);}
+.form-group input,.form-group select,.form-group textarea{padding:7px 9px;border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);font-size:13px;background:var(--color-background-primary);color:var(--color-text-primary);font-family:var(--font-sans);}
+.form-group textarea{resize:vertical;min-height:60px;}
+.btn{padding:8px 14px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font-sans);color:var(--color-text-primary);transition:all .15s;}
+.btn:hover{background:var(--color-background-secondary);}
+.btn-green{background:#0f9d58;color:#fff;border-color:#0f9d58;}.btn-green:hover{background:#0b7a44;}
+.btn-blue{background:#1a73e8;color:#fff;border-color:#1a73e8;}.btn-blue:hover{background:#1557b0;}
+.btn-wa{background:#25d366;color:#fff;border-color:#25d366;}.btn-wa:hover{background:#1da851;}
+.btn-upi{background:#7b2ff7;color:#fff;border-color:#7b2ff7;}.btn-upi:hover{background:#6020d0;}
+.btn-red{background:#d93025;color:#fff;border-color:#d93025;}.btn-red:hover{background:#b0261e;}
+.badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:500;}
+.badge-green{background:#e6f4ea;color:#0f6e56;}.badge-amber{background:#fef7e0;color:#7a4f00;}.badge-red{background:#fce8e6;color:#a50e0e;}.badge-blue{background:#e8f0fe;color:#174ea6;}.badge-purple{background:#f3e8ff;color:#6b21a8;}
+.order-row{display:flex;align-items:center;justify-content:space-between;padding:.65rem .875rem;border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:6px;background:var(--color-background-primary);}
+.order-name{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.order-meta{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+.order-amount{font-size:14px;font-weight:500;color:#0f9d58;}
+.customer-row{display:flex;align-items:center;gap:10px;padding:.65rem .875rem;border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:6px;}
+.avatar{width:34px;height:34px;border-radius:50%;background:#e8f0fe;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#1a73e8;flex-shrink:0;}
+.customer-name{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.customer-meta{font-size:11px;color:var(--color-text-secondary);}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;}
+.product-item{border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:.65rem;background:var(--color-background-primary);}
+.product-item.low{border-color:#f9ab00;background:#fef7e0;}
+.product-emoji{font-size:20px;margin-bottom:4px;}
+.product-name{font-size:12px;font-weight:500;color:var(--color-text-primary);}
+.product-price{font-size:11px;color:#0f9d58;margin-top:2px;}
+.product-stock{font-size:10px;color:var(--color-text-secondary);margin-top:1px;}
+.summary-row{display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-secondary);padding:3px 0;}
+.summary-row.total{font-weight:500;color:var(--color-text-primary);font-size:14px;border-top:.5px solid var(--color-border-tertiary);margin-top:6px;padding-top:8px;}
+.toast{position:fixed;bottom:16px;right:16px;background:#0f9d58;color:#fff;padding:8px 16px;border-radius:var(--border-radius-md);font-size:12px;font-weight:500;display:none;z-index:999;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem;}
+.section-header h2{font-size:14px;font-weight:500;color:var(--color-text-primary);}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:var(--color-background-primary);border-radius:var(--border-radius-lg);padding:1.25rem;width:90%;max-width:440px;border:.5px solid var(--color-border-tertiary);}
+.modal h3{font-size:15px;font-weight:500;margin-bottom:.875rem;color:var(--color-text-primary);}
+.modal-actions{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end;}
+.qr-box{border:2px dashed var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:1.5rem;text-align:center;margin:.75rem 0;}
+.qr-amount{font-size:22px;font-weight:500;color:#7b2ff7;margin:6px 0;}
+.route-map{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;margin-bottom:.75rem;}
+.route-stop{display:flex;align-items:center;gap:10px;padding:.5rem 0;position:relative;}
+.route-stop:not(:last-child)::after{content:'';position:absolute;left:12px;top:32px;width:1px;height:calc(100% - 4px);background:var(--color-border-tertiary);}
+.stop-dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0;}
+.stop-morning{background:#e3f2fd;color:#1a73e8;}
+.stop-evening{background:#fff8e1;color:#e37400;}
+.stop-info{flex:1;}
+.stop-name{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.stop-detail{font-size:11px;color:var(--color-text-secondary);}
+.bill-preview{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;font-size:12px;}
+.bill-header{text-align:center;margin-bottom:.75rem;border-bottom:.5px solid var(--color-border-tertiary);padding-bottom:.75rem;}
+.bill-title{font-size:15px;font-weight:500;color:var(--color-text-primary);}
+.bill-table{width:100%;border-collapse:collapse;font-size:11px;}
+.bill-table th{text-align:left;padding:4px;color:var(--color-text-secondary);border-bottom:.5px solid var(--color-border-tertiary);}
+.bill-table td{padding:4px;color:var(--color-text-primary);}
+.bill-table tr:last-child td{font-weight:500;border-top:.5px solid var(--color-border-tertiary);}
+.upi-history{display:flex;flex-direction:column;gap:6px;}
+.upi-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem .875rem;border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);}
+.upi-name{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.upi-meta{font-size:11px;color:var(--color-text-secondary);}
+.upi-amt{font-size:13px;font-weight:500;}
+.wa-msg-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.875rem;margin-bottom:.75rem;font-size:13px;color:var(--color-text-primary);line-height:1.6;white-space:pre-wrap;}
+.divider{height:.5px;background:var(--color-border-tertiary);margin:.75rem 0;}
+</style>
+
+<div class="app">
+<div class="header">
+  <div class="logo">🥛</div>
+  <div>
+    <h1>Makilgee Milk Shop Pro</h1>
+    <p>Complete dairy management system</p>
+  </div>
+  <div style="margin-left:auto;text-align:right;">
+    <div style="font-size:11px;color:var(--color-text-secondary);">Today</div>
+    <div style="font-size:12px;font-weight:500;" id="today-date"></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('dashboard')">Dashboard</button>
+  <button class="tab" onclick="switchTab('order')">New Order</button>
+  <button class="tab" onclick="switchTab('orders')">Orders</button>
+  <button class="tab" onclick="switchTab('customers')">Customers</button>
+  <button class="tab" onclick="switchTab('whatsapp')">WhatsApp</button>
+  <button class="tab" onclick="switchTab('upi')">UPI Pay</button>
+  <button class="tab" onclick="switchTab('bill')">Bill PDF</button>
+  <button class="tab" onclick="switchTab('route')">Route</button>
+  <button class="tab" onclick="switchTab('stock')">Stock</button>
+</div>
+
+<!-- DASHBOARD -->
+<div class="section active" id="tab-dashboard">
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-label">Today Sales</div><div class="stat-val green" id="stat-sales">₹0</div></div>
+    <div class="stat-card"><div class="stat-label">Orders</div><div class="stat-val" id="stat-orders">0</div></div>
+    <div class="stat-card"><div class="stat-label">Pending Due</div><div class="stat-val red" id="stat-due">₹0</div></div>
+    <div class="stat-card"><div class="stat-label">UPI Received</div><div class="stat-val blue" id="stat-upi">₹0</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Quick Actions</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <button class="btn btn-blue" onclick="switchTab('order')">+ New Order</button>
+      <button class="btn btn-wa" onclick="switchTab('whatsapp')">WhatsApp</button>
+      <button class="btn btn-upi" onclick="switchTab('upi')">UPI Pay</button>
+      <button class="btn btn-green" onclick="switchTab('bill')">Bill PDF</button>
+      <button class="btn" onclick="switchTab('route')">Route Map</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Recent Orders</div>
+    <div id="recent-orders-list"></div>
+  </div>
+</div>
+
+<!-- NEW ORDER -->
+<div class="section" id="tab-order">
+  <div class="card">
+    <div class="section-header"><h2>New Order</h2></div>
+    <div style="display:grid;gap:8px;">
+      <div class="form-row">
+        <div class="form-group"><label>Customer Name</label><input type="text" id="o-name" placeholder="Customer name" list="clist"><datalist id="clist"></datalist></div>
+        <div class="form-group"><label>Phone</label><input type="tel" id="o-phone" placeholder="Mobile number"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Product</label><select id="o-product"></select></div>
+        <div class="form-group"><label>Quantity (L)</label><input type="number" id="o-qty" min="0.5" step="0.5" value="1"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Delivery</label><select id="o-delivery"><option value="morning">Morning</option><option value="evening">Evening</option><option value="both">Both</option><option value="pickup">Self Pickup</option></select></div>
+        <div class="form-group"><label>Payment</label><select id="o-payment"><option value="paid">Paid Now</option><option value="upi">UPI</option><option value="monthly">Monthly Credit</option><option value="pending">Pending</option></select></div>
+      </div>
+      <div id="order-preview" style="display:none;" class="bill-preview"></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-blue" onclick="calcOrder()">Calculate</button>
+        <button class="btn btn-green" onclick="placeOrder()">Place Order ✓</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDERS -->
+<div class="section" id="tab-orders">
+  <div class="section-header"><h2>All Orders</h2><span id="orders-count" style="font-size:12px;color:var(--color-text-secondary);"></span></div>
+  <div id="orders-list"></div>
+</div>
+
+<!-- CUSTOMERS -->
+<div class="section" id="tab-customers">
+  <div class="section-header"><h2>Customers</h2><button class="btn btn-wa" onclick="switchTab('whatsapp')">Send WhatsApp</button></div>
+  <div id="customers-list"></div>
+</div>
+
+<!-- WHATSAPP -->
+<div class="section" id="tab-whatsapp">
+  <div class="card">
+    <div class="section-header"><h2>WhatsApp Message Sender</h2></div>
+    <div style="display:grid;gap:8px;">
+      <div class="form-row">
+        <div class="form-group"><label>Select Customer</label>
+          <select id="wa-customer" onchange="fillWaPhone()">
+            <option value="">Select customer</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" id="wa-phone" placeholder="91XXXXXXXXXX"></div>
+      </div>
+      <div class="form-group"><label>Message Type</label>
+        <select id="wa-type" onchange="genWaMsg()">
+          <option value="due">Monthly Due Reminder</option>
+          <option value="bill">Monthly Bill Ready</option>
+          <option value="price">Price Update</option>
+          <option value="holiday">Holiday Notice</option>
+          <option value="custom">Custom Message</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Message Preview</label><textarea id="wa-msg" rows="5"></textarea></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-wa" onclick="sendWhatsApp()">Send on WhatsApp</button>
+        <button class="btn" onclick="genWaMsg()">Regenerate</button>
+        <button class="btn" onclick="copyWaMsg()">Copy Message</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Send to All Customers with Due</div>
+    <div id="wa-due-list"></div>
+  </div>
+</div>
+
+<!-- UPI PAYMENT -->
+<div class="section" id="tab-upi">
+  <div class="card">
+    <div class="section-header"><h2>UPI Payment Request</h2></div>
+    <div style="display:grid;gap:8px;">
+      <div class="form-row">
+        <div class="form-group"><label>Customer</label>
+          <select id="upi-customer" onchange="fillUpiAmount()">
+            <option value="">Select customer</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Amount (₹)</label><input type="number" id="upi-amount" placeholder="0" min="1"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Your UPI ID</label><input type="text" id="upi-id" value="makilgee@upi" placeholder="yourname@upi"></div>
+        <div class="form-group"><label>Note</label><input type="text" id="upi-note" value="Milk Payment" placeholder="Payment note"></div>
+      </div>
+      <div class="qr-box" id="upi-preview" style="display:none;">
+        <div style="font-size:13px;color:var(--color-text-secondary);">UPI Payment Link</div>
+        <div class="qr-amt" id="upi-display-amt">₹0</div>
+        <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;" id="upi-to-name"></div>
+        <div style="font-size:20px;margin-bottom:8px;">📱</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);" id="upi-link-text"></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-upi" onclick="generateUPI()">Generate UPI Link</button>
+        <button class="btn btn-wa" onclick="sendUPIWhatsApp()">Share on WhatsApp</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-header"><h2>Payment History</h2></div>
+    <div class="upi-history" id="upi-history"></div>
+  </div>
+</div>
+
+<!-- BILL PDF -->
+<div class="section" id="tab-bill">
+  <div class="card">
+    <div class="section-header"><h2>Monthly Bill Generator</h2></div>
+    <div style="display:grid;gap:8px;">
+      <div class="form-row">
+        <div class="form-group"><label>Customer</label>
+          <select id="bill-customer" onchange="previewBill()">
+            <option value="">Select customer</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Month</label>
+          <select id="bill-month" onchange="previewBill()">
+            <option value="4">April 2025</option>
+            <option value="3">March 2025</option>
+            <option value="2">February 2025</option>
+            <option value="1">January 2025</option>
+          </select>
+        </div>
+      </div>
+      <div id="bill-preview-box" style="display:none;" class="bill-preview">
+        <div class="bill-header">
+          <div class="bill-title">MAKILGEE MILK SHOP</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);">Monthly Milk Bill</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);" id="bp-period"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:11px;">
+          <div><div style="font-weight:500;" id="bp-cname"></div><div style="color:var(--color-text-secondary);" id="bp-phone"></div></div>
+          <div style="text-align:right;"><div style="color:var(--color-text-secondary);">Bill No</div><div style="font-weight:500;" id="bp-billno"></div></div>
+        </div>
+        <table class="bill-table">
+          <thead><tr><th>Date</th><th>Product</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+          <tbody id="bp-rows"></tbody>
+        </table>
+        <div style="margin-top:.5rem;display:flex;justify-content:space-between;font-size:12px;font-weight:500;">
+          <span>Total Amount</span><span class="green" id="bp-total"></span>
+        </div>
+        <div style="margin-top:.5rem;font-size:10px;color:var(--color-text-secondary);text-align:center;border-top:.5px solid var(--color-border-tertiary);padding-top:.5rem;">Thank you for your business! Pay via UPI: makilgee@upi</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-green" onclick="previewBill()">Preview Bill</button>
+        <button class="btn btn-blue" onclick="downloadBill()">Download PDF</button>
+        <button class="btn btn-wa" onclick="billToWhatsApp()">Share on WhatsApp</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Bulk Bills — All Customers</div>
+    <div id="bulk-bill-list"></div>
+    <button class="btn btn-blue" style="margin-top:.5rem;" onclick="sendPrompt('How to send monthly milk bills to all customers efficiently via WhatsApp?')">Bulk Send Tips ↗</button>
+  </div>
+</div>
+
+<!-- ROUTE MAP -->
+<div class="section" id="tab-route">
+  <div class="card">
+    <div class="section-header"><h2>Delivery Route Map</h2>
+      <div style="display:flex;gap:6px;">
+        <button class="btn" onclick="filterRoute('all')" id="r-all" style="background:var(--color-background-secondary);">All</button>
+        <button class="btn" onclick="filterRoute('morning')" id="r-morning">Morning</button>
+        <button class="btn" onclick="filterRoute('evening')" id="r-evening">Evening</button>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:.75rem;" id="route-summary"></div>
+    <div id="route-list"></div>
+    <button class="btn btn-wa" style="margin-top:.5rem;width:100%;" onclick="shareRoute()">Share Route on WhatsApp</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Add Delivery Stop</div>
+    <div class="form-row">
+      <div class="form-group"><label>Customer</label><select id="route-customer"></select></div>
+      <div class="form-group"><label>Address / Area</label><input type="text" id="route-area" placeholder="Street / Area name"></div>
+    </div>
+    <div class="form-row" style="margin-top:8px;">
+      <div class="form-group"><label>Delivery Slot</label><select id="route-slot"><option value="morning">Morning</option><option value="evening">Evening</option><option value="both">Both</option></select></div>
+      <div class="form-group"><label>Order</label><input type="number" id="route-order" placeholder="Stop number" min="1" value="1"></div>
+    </div>
+    <button class="btn btn-blue" style="margin-top:8px;" onclick="addRouteStop()">Add Stop</button>
+  </div>
+</div>
+
+<!-- STOCK -->
+<div class="section" id="tab-stock">
+  <div class="section-header"><h2>Stock & Products</h2></div>
+  <div class="product-grid" id="stock-grid"></div>
+  <div class="card" style="margin-top:.875rem;">
+    <div class="card-title">Update Stock</div>
+    <div class="form-row">
+      <div class="form-group"><label>Product</label><select id="s-product"></select></div>
+      <div class="form-group"><label>Add Quantity (L)</label><input type="number" id="s-qty" min="1" step="1" value="10"></div>
+    </div>
+    <button class="btn btn-blue" style="margin-top:8px;" onclick="updateStock()">Update Stock</button>
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const products=[
+  {id:1,name:"Full Cream Milk",price:62,unit:"L",stock:50,emoji:"🥛"},
+  {id:2,name:"Toned Milk",price:54,unit:"L",stock:40,emoji:"🍼"},
+  {id:3,name:"Standardised Milk",price:58,unit:"L",stock:30,emoji:"🫙"},
+  {id:4,name:"Buffalo Milk",price:70,unit:"L",stock:20,emoji:"🐃"},
+  {id:5,name:"Curd (500g)",price:40,unit:"pkt",stock:25,emoji:"🧊"},
+  {id:6,name:"Paneer (200g)",price:80,unit:"pkt",stock:10,emoji:"🧀"},
+];
+let orders=[
+  {id:1,name:"Rajesh Kumar",phone:"9876543210",product:"Full Cream Milk",qty:2,amount:124,delivery:"morning",payment:"paid",date:today()},
+  {id:2,name:"Priya Lakshmi",phone:"9876543211",product:"Toned Milk",qty:1.5,amount:81,delivery:"evening",payment:"monthly",date:today()},
+  {id:3,name:"Murugan S",phone:"9876543212",product:"Buffalo Milk",qty:2,amount:140,delivery:"morning",payment:"pending",date:today()},
+];
+let customers=[
+  {name:"Rajesh Kumar",phone:"9876543210",product:"Full Cream Milk",qty:2,due:0,area:"Anna Nagar",slot:"morning"},
+  {name:"Priya Lakshmi",phone:"9876543211",product:"Toned Milk",qty:1.5,due:486,area:"T. Nagar",slot:"evening"},
+  {name:"Murugan S",phone:"9876543212",product:"Buffalo Milk",qty:2,due:280,area:"Vadapalani",slot:"morning"},
+  {name:"Kavitha Devi",phone:"9876543213",product:"Full Cream Milk",qty:1,due:0,area:"Porur",slot:"both"},
+  {name:"Senthil Raja",phone:"9876543214",product:"Toned Milk",qty:2,due:162,area:"Tambaram",slot:"morning"},
+];
+let upiPayments=[
+  {name:"Priya Lakshmi",amount:486,upiId:"makilgee@upi",date:today(),txnId:"TXN"+Math.floor(Math.random()*900000+100000),status:"received"},
+  {name:"Senthil Raja",amount:162,upiId:"makilgee@upi",date:today(),txnId:"TXN"+Math.floor(Math.random()*900000+100000),status:"pending"},
+];
+let routeStops=[
+  {customer:"Rajesh Kumar",area:"Anna Nagar",slot:"morning",order:1},
+  {customer:"Murugan S",area:"Vadapalani",slot:"morning",order:2},
+  {customer:"Senthil Raja",area:"Tambaram",slot:"morning",order:3},
+  {customer:"Priya Lakshmi",area:"T. Nagar",slot:"evening",order:1},
+  {customer:"Kavitha Devi",area:"Porur",slot:"both",order:2},
+];
+let orderIdCounter=4;
+
+function today(){return new Date().toLocaleDateString('en-IN');}
+document.getElementById('today-date').textContent=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+
+function switchTab(tab){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  const tabNames=['dashboard','order','orders','customers','whatsapp','upi','bill','route','stock'];
+  const idx=tabNames.indexOf(tab);
+  if(idx>=0) document.querySelectorAll('.tab')[idx].classList.add('active');
+  if(tab==='dashboard') renderDashboard();
+  if(tab==='order') setupForms();
+  if(tab==='orders') renderOrders();
+  if(tab==='customers') renderCustomers();
+  if(tab==='whatsapp') setupWA();
+  if(tab==='upi') setupUPI();
+  if(tab==='bill') setupBill();
+  if(tab==='route') renderRoute('all');
+  if(tab==='stock') renderStock();
+}
+
+function setupForms(){
+  const ops=['o-product','s-product'];
+  ops.forEach(id=>{
+    const sel=document.getElementById(id);
+    if(!sel) return;
+    sel.innerHTML='<option value="">Select product</option>';
+    products.forEach(p=>sel.innerHTML+=`<option value="${p.id}">${p.name} — ₹${p.price}/${p.unit}</option>`);
+  });
+  const dl=document.getElementById('clist');
+  if(dl){dl.innerHTML='';customers.forEach(c=>dl.innerHTML+=`<option value="${c.name}">`);}
+}
+
+function calcOrder(){
+  const pid=parseInt(document.getElementById('o-product').value);
+  const qty=parseFloat(document.getElementById('o-qty').value);
+  if(!pid||!qty) return;
+  const p=products.find(x=>x.id===pid);
+  const amt=Math.round(p.price*qty);
+  const del=document.getElementById('o-delivery').value;
+  const pay=document.getElementById('o-payment').value;
+  const prev=document.getElementById('order-preview');
+  prev.style.display='block';
+  prev.innerHTML=`
+    <div class="summary-row"><span>Product</span><span>${p.emoji} ${p.name}</span></div>
+    <div class="summary-row"><span>Quantity</span><span>${qty} L</span></div>
+    <div class="summary-row"><span>Rate</span><span>₹${p.price}/L</span></div>
+    <div class="summary-row"><span>Delivery</span><span>${del}</span></div>
+    <div class="summary-row"><span>Payment</span><span>${pay}</span></div>
+    <div class="summary-row total"><span>Total</span><span>₹${amt}</span></div>`;
+}
+
+function placeOrder(){
+  const name=document.getElementById('o-name').value||'Walk-in';
+  const phone=document.getElementById('o-phone').value||'-';
+  const pid=parseInt(document.getElementById('o-product').value);
+  const qty=parseFloat(document.getElementById('o-qty').value);
+  if(!pid||!qty){showToast('Select product & quantity');return;}
+  const p=products.find(x=>x.id===pid);
+  const amt=Math.round(p.price*qty);
+  const del=document.getElementById('o-delivery').value;
+  const pay=document.getElementById('o-payment').value;
+  orders.unshift({id:orderIdCounter++,name,phone,product:p.name,qty,amount:amt,delivery:del,payment:pay,date:today()});
+  p.stock=Math.max(0,p.stock-qty);
+  if(pay!=='paid'){
+    let c=customers.find(x=>x.name===name);
+    if(!c){customers.push({name,phone,product:p.name,qty,due:amt,area:'',slot:del});}
+    else{c.due+=amt;}
+  }
+  if(pay==='upi'){
+    upiPayments.unshift({name,amount:amt,upiId:'makilgee@upi',date:today(),txnId:'TXN'+Math.floor(Math.random()*900000+100000),status:'pending'});
+  }
+  document.getElementById('o-name').value='';
+  document.getElementById('o-phone').value='';
+  document.getElementById('o-qty').value='1';
+  document.getElementById('order-preview').style.display='none';
+  showToast('Order placed! ₹'+amt);
+  switchTab('dashboard');
+}
+
+function renderDashboard(){
+  const todayOrders=orders.filter(o=>o.date===today());
+  const sales=todayOrders.reduce((s,o)=>s+(o.payment==='paid'?o.amount:0),0);
+  const due=customers.reduce((s,c)=>s+c.due,0);
+  const upiRcvd=upiPayments.filter(u=>u.status==='received'&&u.date===today()).reduce((s,u)=>s+u.amount,0);
+  document.getElementById('stat-sales').textContent='₹'+sales.toLocaleString('en-IN');
+  document.getElementById('stat-orders').textContent=todayOrders.length;
+  document.getElementById('stat-due').textContent='₹'+due.toLocaleString('en-IN');
+  document.getElementById('stat-upi').textContent='₹'+upiRcvd.toLocaleString('en-IN');
+  const el=document.getElementById('recent-orders-list');
+  el.innerHTML=orders.slice(0,4).map(o=>`
+    <div class="order-row">
+      <div><div class="order-name">${o.name}</div><div class="order-meta">${o.product} × ${o.qty}L · ${o.delivery}</div></div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="badge ${o.payment==='paid'?'badge-green':o.payment==='upi'?'badge-blue':o.payment==='monthly'?'badge-amber':'badge-red'}">${o.payment}</span>
+        <span class="order-amount">₹${o.amount}</span>
+      </div>
+    </div>`).join('');
+}
+
+function renderOrders(){
+  document.getElementById('orders-count').textContent=orders.length+' orders';
+  document.getElementById('orders-list').innerHTML=orders.map(o=>`
+    <div class="order-row">
+      <div><div class="order-name">${o.name} <span style="font-size:10px;color:var(--color-text-secondary);">${o.phone}</span></div>
+      <div class="order-meta">${o.product} × ${o.qty}L · ${o.delivery} · ${o.date}</div></div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="badge ${o.payment==='paid'?'badge-green':o.payment==='upi'?'badge-blue':o.payment==='monthly'?'badge-amber':'badge-red'}">${o.payment}</span>
+        <span class="order-amount">₹${o.amount}</span>
+      </div>
+    </div>`).join('');
+}
+
+function renderCustomers(){
+  document.getElementById('customers-list').innerHTML=customers.map(c=>{
+    const init=c.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+    return `<div class="customer-row">
+      <div class="avatar">${init}</div>
+      <div style="flex:1;">
+        <div class="customer-name">${c.name}</div>
+        <div class="customer-meta">${c.phone} · ${c.product} ${c.qty}L/day · ${c.area||'–'}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="font-size:13px;font-weight:500;${c.due>0?'color:#d93025':'color:#0f9d58'}">${c.due>0?'₹'+c.due+' due':'No due'}</span>
+        ${c.due>0?`<button class="btn btn-wa" style="padding:4px 8px;font-size:11px;" onclick="quickWA('${c.name}','${c.phone}',${c.due})">WA</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setupWA(){
+  const sel=document.getElementById('wa-customer');
+  sel.innerHTML='<option value="">Select customer</option>';
+  customers.forEach(c=>sel.innerHTML+=`<option value="${c.name}" data-phone="${c.phone}" data-due="${c.due}">${c.name}</option>`);
+  genWaMsg();
+  const dueList=document.getElementById('wa-due-list');
+  const dueCusts=customers.filter(c=>c.due>0);
+  if(dueCusts.length===0){dueList.innerHTML='<p style="font-size:12px;color:var(--color-text-secondary);">All dues cleared!</p>';return;}
+  dueList.innerHTML=dueCusts.map(c=>`
+    <div class="customer-row">
+      <div style="flex:1;"><div class="customer-name">${c.name}</div><div class="customer-meta">${c.phone} · Due: ₹${c.due}</div></div>
+      <button class="btn btn-wa" style="font-size:11px;padding:5px 10px;" onclick="quickWA('${c.name}','${c.phone}',${c.due})">Send WA</button>
+    </div>`).join('');
+}
+
+function fillWaPhone(){
+  const sel=document.getElementById('wa-customer');
+  const opt=sel.options[sel.selectedIndex];
+  if(opt&&opt.dataset.phone){
+    document.getElementById('wa-phone').value=opt.dataset.phone;
+    genWaMsg();
+  }
+}
+
+function genWaMsg(){
+  const sel=document.getElementById('wa-customer');
+  const type=document.getElementById('wa-type').value;
+  const opt=sel.options[sel.selectedIndex];
+  const name=opt&&opt.value?opt.value:'Customer';
+  const due=opt&&opt.dataset.due?opt.dataset.due:0;
+  const month='April 2025';
+  let msg='';
+  if(type==='due') msg=`Dear ${name},\n\nNamaste! 🙏\n\nYour milk account due for ${month} is ₹${due}.\n\nPlease pay at your earliest convenience.\n\nUPI: makilgee@upi\n\nThank you!\nMakilgee Milk Shop\n📞 9999999999`;
+  else if(type==='bill') msg=`Dear ${name},\n\nYour monthly milk bill for ${month} is ready. Total: ₹${due||'—'}\n\nContact us to get your detailed bill.\n\nThank you for your support! 🥛\nMakilgee Milk Shop`;
+  else if(type==='price') msg=`Dear ${name},\n\nWe wish to inform you that milk prices have been updated from tomorrow.\n\nFull Cream: ₹62/L\nToned: ₹54/L\nBuffalo: ₹70/L\n\nThank you for understanding.\nMakilgee Milk Shop`;
+  else if(type==='holiday') msg=`Dear ${name},\n\nOur shop will remain closed on [Date] due to [Festival/Holiday].\n\nPlease arrange accordingly.\n\nSorry for the inconvenience. 🙏\nMakilgee Milk Shop`;
+  else msg=`Dear ${name},\n\n[Write your custom message here]\n\nThank you!\nMakilgee Milk Shop`;
+  document.getElementById('wa-msg').value=msg;
+}
+
+function sendWhatsApp(){
+  const phone=document.getElementById('wa-phone').value.replace(/\D/g,'');
+  const msg=document.getElementById('wa-msg').value;
+  if(!phone){showToast('Enter phone number');return;}
+  const num=phone.startsWith('91')?phone:'91'+phone;
+  const url='https://wa.me/'+num+'?text='+encodeURIComponent(msg);
+  window.open(url,'_blank');
+}
+
+function copyWaMsg(){
+  const msg=document.getElementById('wa-msg').value;
+  navigator.clipboard.writeText(msg).then(()=>showToast('Message copied!')).catch(()=>showToast('Select & copy manually'));
+}
+
+function quickWA(name,phone,due){
+  switchTab('whatsapp');
+  setTimeout(()=>{
+    document.getElementById('wa-phone').value=phone;
+    document.getElementById('wa-type').value='due';
+    const sel=document.getElementById('wa-customer');
+    for(let i=0;i<sel.options.length;i++){if(sel.options[i].value===name){sel.selectedIndex=i;break;}}
+    genWaMsg();
+  },100);
+}
+
+function setupUPI(){
+  const sel=document.getElementById('upi-customer');
+  sel.innerHTML='<option value="">Select customer</option>';
+  customers.forEach(c=>sel.innerHTML+=`<option value="${c.name}" data-due="${c.due}" data-phone="${c.phone}">${c.name} ${c.due>0?'(₹'+c.due+' due)':''}</option>`);
+  renderUpiHistory();
+}
+
+function fillUpiAmount(){
+  const sel=document.getElementById('upi-customer');
+  const opt=sel.options[sel.selectedIndex];
+  if(opt&&opt.dataset.due&&parseInt(opt.dataset.due)>0){
+    document.getElementById('upi-amount').value=opt.dataset.due;
+  }
+}
+
+function generateUPI(){
+  const sel=document.getElementById('upi-customer');
+  const name=sel.options[sel.selectedIndex].value;
+  const amt=parseInt(document.getElementById('upi-amount').value);
+  const upiId=document.getElementById('upi-id').value||'makilgee@upi';
+  const note=document.getElementById('upi-note').value||'Milk Payment';
+  if(!name||!amt){showToast('Select customer and amount');return;}
+  const upiLink=`upi://pay?pa=${upiId}&pn=Makilgee+Milk+Shop&am=${amt}&cu=INR&tn=${encodeURIComponent(note)}`;
+  document.getElementById('upi-preview').style.display='block';
+  document.getElementById('upi-display-amt').textContent='₹'+amt.toLocaleString('en-IN');
+  document.getElementById('upi-to-name').textContent='For: '+name+' | '+upiId;
+  document.getElementById('upi-link-text').textContent=upiLink.substring(0,60)+'...';
+  showToast('UPI link generated!');
+}
+
+function sendUPIWhatsApp(){
+  const sel=document.getElementById('upi-customer');
+  const opt=sel.options[sel.selectedIndex];
+  const name=opt?opt.value:'Customer';
+  const phone=opt?opt.dataset.phone:'';
+  const amt=parseInt(document.getElementById('upi-amount').value)||0;
+  const upiId=document.getElementById('upi-id').value||'makilgee@upi';
+  const msg=`Dear ${name},\n\nPlease pay ₹${amt} for your milk bill.\n\nPay via UPI:\n📱 UPI ID: ${upiId}\n💰 Amount: ₹${amt}\n\nThank you!\nMakilgee Milk Shop`;
+  const num=phone?('91'+phone.replace(/\D/g,'')):'';
+  const url='https://wa.me/'+(num||'')+' ?text='+encodeURIComponent(msg);
+  window.open(url,'_blank');
+}
+
+function renderUpiHistory(){
+  const el=document.getElementById('upi-history');
+  el.innerHTML=upiPayments.map(u=>`
+    <div class="upi-row">
+      <div><div class="upi-name">${u.name}</div><div class="upi-meta">${u.txnId} · ${u.date}</div></div>
+      <div style="text-align:right;">
+        <div class="upi-amt ${u.status==='received'?'green':'amber'}">₹${u.amount}</div>
+        <span class="badge ${u.status==='received'?'badge-green':'badge-amber'}">${u.status}</span>
+      </div>
+    </div>`).join('');
+}
+
+function setupBill(){
+  const sel=document.getElementById('bill-customer');
+  sel.innerHTML='<option value="">Select customer</option>';
+  customers.forEach(c=>sel.innerHTML+=`<option value="${c.name}">${c.name}</option>`);
+  const bl=document.getElementById('bulk-bill-list');
+  bl.innerHTML=customers.map(c=>`
+    <div class="customer-row">
+      <div style="flex:1;"><div class="customer-name">${c.name}</div><div class="customer-meta">${c.product} · ₹${Math.round(c.qty*products.find(p=>p.name===c.product)?.price||0)*30}/month est.</div></div>
+      <div style="display:flex;gap:6px;">
+        <button class="btn" style="font-size:11px;padding:4px 8px;" onclick="selectBillCustomer('${c.name}')">Preview</button>
+        <button class="btn btn-wa" style="font-size:11px;padding:4px 8px;" onclick="quickWA('${c.name}','${c.phone}',${c.due})">WA</button>
+      </div>
+    </div>`).join('');
+}
+
+function selectBillCustomer(name){
+  const sel=document.getElementById('bill-customer');
+  for(let i=0;i<sel.options.length;i++){if(sel.options[i].value===name){sel.selectedIndex=i;break;}}
+  previewBill();
+}
+
+function previewBill(){
+  const sel=document.getElementById('bill-customer');
+  const name=sel.options[sel.selectedIndex].value;
+  if(!name) return;
+  const c=customers.find(x=>x.name===name);
+  if(!c) return;
+  const p=products.find(x=>x.name===c.product)||products[0];
+  const month=document.getElementById('bill-month');
+  const monthName=month.options[month.selectedIndex].text;
+  const days=30;
+  const dailyAmt=Math.round(p.price*c.qty);
+  const totalAmt=dailyAmt*days;
+  document.getElementById('bp-period').textContent=monthName;
+  document.getElementById('bp-cname').textContent=c.name;
+  document.getElementById('bp-phone').textContent=c.phone;
+  document.getElementById('bp-billno').textContent='INV-'+Math.floor(1000+Math.random()*9000);
+  const sampleDays=[1,5,10,15,20,25,30];
+  document.getElementById('bp-rows').innerHTML=sampleDays.map(d=>`
+    <tr><td>${d} ${monthName.split(' ')[0]}</td><td>${c.product}</td><td>${c.qty}L</td><td>₹${p.price}</td><td>₹${dailyAmt}</td></tr>`).join('')+
+    `<tr><td colspan="4" style="text-align:right;">Total (${days} days)</td><td>₹${totalAmt}</td></tr>`;
+  document.getElementById('bp-total').textContent='₹'+totalAmt.toLocaleString('en-IN');
+  document.getElementById('bill-preview-box').style.display='block';
+}
+
+function downloadBill(){
+  const sel=document.getElementById('bill-customer');
+  const name=sel.options[sel.selectedIndex].value;
+  if(!name){showToast('Select a customer first');return;}
+  showToast('Bill ready — use browser Print to save as PDF');
+  sendPrompt('How to save a milk bill as PDF on mobile phone?');
+}
+
+function billToWhatsApp(){
+  const sel=document.getElementById('bill-customer');
+  const opt=sel.options[sel.selectedIndex];
+  const name=opt?opt.value:'';
+  if(!name){showToast('Select customer first');return;}
+  const c=customers.find(x=>x.name===name);
+  const p=products.find(x=>x.name===c?.product)||products[0];
+  const totalAmt=Math.round((p.price*(c?.qty||1))*30);
+  quickWA(name,c?.phone||'',totalAmt);
+}
+
+function renderRoute(filter){
+  let stops=filter==='all'?routeStops:routeStops.filter(s=>s.slot===filter||s.slot==='both');
+  stops=stops.sort((a,b)=>a.order-b.order);
+  document.getElementById('route-summary').textContent=stops.length+' stops · Est. '+Math.round(stops.length*8)+' min total delivery time';
+  const el=document.getElementById('route-list');
+  if(stops.length===0){el.innerHTML='<p style="font-size:12px;color:var(--color-text-secondary);">No stops for this filter.</p>';return;}
+  el.innerHTML=stops.map((s,i)=>{
+    const c=customers.find(x=>x.name===s.customer)||{};
+    const slotClass=s.slot==='morning'?'stop-morning':s.slot==='evening'?'stop-evening':'stop-morning';
+    return `<div class="route-stop">
+      <div class="stop-dot ${slotClass}">${i+1}</div>
+      <div class="stop-info">
+        <div class="stop-name">${s.customer}</div>
+        <div class="stop-detail">${s.area} · ${c.product||''} ${c.qty||''}L · <span class="badge ${s.slot==='morning'?'badge-blue':'badge-amber'}">${s.slot}</span></div>
+      </div>
+      <button class="btn btn-wa" style="font-size:11px;padding:4px 8px;" onclick="quickWA('${s.customer}','${c.phone||''}',0)">WA</button>
+    </div>`;
+  }).join('');
+  const routeSel=document.getElementById('route-customer');
+  if(routeSel){
+    routeSel.innerHTML='<option value="">Select customer</option>';
+    customers.forEach(c=>routeSel.innerHTML+=`<option value="${c.name}">${c.name}</option>`);
+  }
+}
+
+function filterRoute(f){
+  document.querySelectorAll('#r-all,#r-morning,#r-evening').forEach(b=>b.style.background='');
+  document.getElementById('r-'+f).style.background='var(--color-background-secondary)';
+  renderRoute(f);
+}
+
+function addRouteStop(){
+  const sel=document.getElementById('route-customer');
+  const name=sel.options[sel.selectedIndex].value;
+  const area=document.getElementById('route-area').value;
+  const slot=document.getElementById('route-slot').value;
+  const ord=parseInt(document.getElementById('route-order').value)||routeStops.length+1;
+  if(!name||!area){showToast('Select customer and area');return;}
+  routeStops.push({customer:name,area,slot,order:ord});
+  showToast('Stop added for '+name);
+  renderRoute('all');
+  document.getElementById('route-area').value='';
+}
+
+function shareRoute(){
+  const stops=routeStops.sort((a,b)=>a.order-b.order);
+  let msg='🚚 Today Delivery Route\n\n';
+  stops.forEach((s,i)=>msg+=`${i+1}. ${s.customer} — ${s.area} (${s.slot})\n`);
+  msg+='\nMakilgee Milk Shop';
+  const url='https://wa.me/?text='+encodeURIComponent(msg);
+  window.open(url,'_blank');
+}
+
+function renderStock(){
+  document.getElementById('stock-grid').innerHTML=products.map(p=>`
+    <div class="product-item ${p.stock<15?'low':''}">
+      <div class="product-emoji">${p.emoji}</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-price">₹${p.price}/${p.unit}</div>
+      <div class="product-stock">Stock: ${p.stock}L ${p.stock<15?'⚠':'✓'}</div>
+    </div>`).join('');
+  const sel=document.getElementById('s-product');
+  sel.innerHTML='<option value="">Select product</option>';
+  products.forEach(p=>sel.innerHTML+=`<option value="${p.id}">${p.name}</option>`);
+}
+
+function updateStock(){
+  const pid=parseInt(document.getElementById('s-product').value);
+  const qty=parseInt(document.getElementById('s-qty').value);
+  if(!pid||!qty) return;
+  const p=products.find(x=>x.id===pid);
+  p.stock+=qty;
+  showToast('Stock updated for '+p.name);
+  renderStock();
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent='✓ '+msg;
+  t.style.display='block';
+  setTimeout(()=>t.style.display='none',2500);
+}
+
+setupForms();
+renderDashboard();
+</script>
